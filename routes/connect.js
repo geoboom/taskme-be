@@ -1,30 +1,16 @@
 const express = require('express');
+const passport = require('passport');
 
 const {
-  storeToken,
+  rootGet,
 } = require('../controllers/connect');
 
 const router = express.Router();
 
-router.get('/', async (req, res, next) => {
-  if (!req.session.userId) {
-    return next({
-      status: 401,
-      message: 'Not logged in.',
-    });
-  }
-
-  try {
-    const token = await storeToken(req.sessionID);
-    res.json({
-      e: 'Token generated.',
-      d: {
-        tok: token,
-      },
-    });
-  } catch (err) {
-    next(err);
-  }
-});
+router.get(
+  '/',
+  passport.authenticate('local', { session: false }),
+  rootGet,
+);
 
 module.exports = router;

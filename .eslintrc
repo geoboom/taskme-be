@@ -1,0 +1,22 @@
+{
+	"extends": "airbnb",
+	"env": {
+		"browser": true,
+		"node": true,
+		"mocha": true
+	},
+	"rules": {
+		"react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+		"linebreak-style": 0,
+		"react/forbid-prop-types": 0,
+		"func-names": ["error", "never"]
+	},
+	"parser": "babel-eslint",
+	"settings": {
+		"import/resolver": {
+			"node": {
+				"paths": ["src"]
+			}
+		}
+	}
+}

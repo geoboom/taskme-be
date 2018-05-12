@@ -4,17 +4,11 @@ const {
 } = require('../../services/connect');
 
 exports.authenticationMiddleware = async (socket, next) => {
-  const { tok } = socket.handshake.query;
+  const { userId, username } = socket.handshake.query;
 
   try {
-    const payload = await validateToken(tok);
-    if (!payload) {
-      next(new Error('session.authenticationFailed'));
-      return;
-    }
-
-    const { userId } = JSON.parse(payload);
     socket.userId = userId;
+    socket.username = username;
     if (!await registerPresence(socket)) {
       next(new Error('session.alreadyActive'));
       return;

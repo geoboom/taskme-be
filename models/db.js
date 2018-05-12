@@ -1,9 +1,20 @@
 const mongoose = require('mongoose');
 
-const dbConnect = () => {
-  mongoose.connect(`mongodb://geoboom:${process.env.DB_PASS}@ds255309.mlab.com:55309/taskme-test-db`);
-
+const dbConn = () => {
   mongoose.Promise = global.Promise;
+  mongoose.connect(
+    `mongodb://geoboom:${process.env.DB_PASS}@ds029595.mlab.com:29595/taskme-db-${process.env.NODE_ENV}`,
+    (err) => {
+      if (err) {
+        console.log('env =', process.env.NODE_ENV);
+        console.log('error connecting to db:', err);
+        console.log('exiting...');
+        process.exit(1);
+      }
+    },
+  );
+
+  return mongoose.connection;
 };
 
-module.exports = dbConnect;
+module.exports = dbConn;

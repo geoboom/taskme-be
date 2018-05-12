@@ -1,29 +1,50 @@
-const { destroyPresence } = require('./controllers/connect');
+const { destroyPresence, getAllPresence } = require('./services/connect');
 const socketio = require('socket.io');
 
 const {
   authenticationMiddleware,
-} = require('./middleware/socket/authentication');
+} = require('./middleware/socket/testAuthentication');
 
 const init = (server) => {
   const io = socketio(server);
 
   io.use(authenticationMiddleware);
 
-  io.on('connection', (socket) => {
-    console.log(`socket.userId ${socket.userId} connected`);
+  io.on('connection', async (socket) => {
     socket.emit('connection.success', {
       userId: socket.userId,
+      username: socket.username,
     });
 
-    console.log(socket.rooms);
-    socket.join('main.lobby', () => {
-      console.log(socket.rooms);
+    try {
+      const presence = await getAllPresence();
+      socket.emit('users.presence', {
+        presence
+      });
+    } catch (err) {
+      throw new Error(err);
+    }
+
+    socket.broadcast.emit('user.connected', {
+      userId: socket.userId,
+      username: socket.username,
     });
 
-    socket.on('disconnect', () => {
-      console.log(`socket.userId ${socket.userId} disconnected`);
-      destroyPresence(socket);
+
+    // socket.on('task.add');
+    // socket.on('task.assign');
+
+    socket.on('disconnect', async () => {
+      try {
+        await destroyPresence(socket);
+      } catch (err) {
+        throw new Error(err);
+      }
+
+      socket.broadcast.emit('user.disconnected', {
+        userId: socket.userId,
+        username: socket.username,
+      });
     });
   });
 
