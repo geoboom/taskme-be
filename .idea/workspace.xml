@@ -2,38 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d1b0d2dc-9d2f-449e-8de5-26e0d522165d" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/config.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/controllers/authentication.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/middleware/authentication.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/middleware/authorization.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/models/job.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/models/jobCategory.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/models/jobComponent.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/models/task.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/routes/auth.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/services/authentication.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/services/connect.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/test/models/user.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/test/routes/auth.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/test/services/authentication.js" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/helpers/users.js" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/jsLibraryMappings.xml" afterPath="$PROJECT_DIR$/.idea/jsLibraryMappings.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app.js" afterPath="$PROJECT_DIR$/app.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/www" afterPath="$PROJECT_DIR$/bin/www" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/controllers/connect.js" afterPath="$PROJECT_DIR$/controllers/connect.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/helpers/redisAsync.js" afterPath="$PROJECT_DIR$/helpers/redisAsync.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/middleware/socket/authentication.js" afterPath="$PROJECT_DIR$/middleware/socket/authentication.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/models/db.js" afterPath="$PROJECT_DIR$/models/db.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/models/user.js" afterPath="$PROJECT_DIR$/models/user.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/package-lock.json" afterPath="$PROJECT_DIR$/package-lock.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/package.json" afterPath="$PROJECT_DIR$/package.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/routes/connect.js" afterPath="$PROJECT_DIR$/routes/connect.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/routes/index.js" afterPath="$PROJECT_DIR$/routes/index.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/socket.js" afterPath="$PROJECT_DIR$/socket.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/taskme-be.iml" afterPath="$PROJECT_DIR$/taskme-be.iml" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/services/redisClient.js" afterPath="$PROJECT_DIR$/helpers/redisClient.js" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -238,7 +207,7 @@
             <entry file="file://$PROJECT_DIR$/test/models/user.js">
               <provider selected="true" editor-type-id="text-editor">
                 <state relative-caret-position="805">
-                  <caret line="23" column="26" lean-forward="false" selection-start-line="23" selection-start-column="26" selection-end-line="23" selection-end-column="26" />
+                  <caret line="23" column="32" lean-forward="false" selection-start-line="23" selection-start-column="32" selection-end-line="23" selection-end-column="32" />
                   <folding>
                     <element signature="n#!!doc" expanded="true" />
                   </folding>
@@ -603,16 +572,15 @@
       <workItem from="1525097596363" duration="144000" />
       <workItem from="1525230201557" duration="5000" />
       <workItem from="1525378935220" duration="27000" />
-      <workItem from="1526038066971" duration="45112000" />
+      <workItem from="1526038066971" duration="45636000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="137448000" />
+    <option name="totallyTimeSpent" value="137972000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="3856" height="2136" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -623,7 +591,7 @@
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.22091837" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.39081633" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.39081633" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.119791664" sideWeight="0.4973992" order="0" side_tool="false" content_ui="combo" />
@@ -986,7 +954,7 @@
     <entry file="file://$PROJECT_DIR$/test/models/user.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="805">
-          <caret line="23" column="26" lean-forward="false" selection-start-line="23" selection-start-column="26" selection-end-line="23" selection-end-column="26" />
+          <caret line="23" column="32" lean-forward="false" selection-start-line="23" selection-start-column="32" selection-end-line="23" selection-end-column="32" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
           </folding>
