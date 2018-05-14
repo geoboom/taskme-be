@@ -8,7 +8,7 @@ const {
   userSignup,
 } = require('../../services/authentication');
 
-describe('services/authentication.js', () => {
+describe('services/authentication.js mongo', () => {
   // Before starting test, create sandboxed database connection and invoke done() once established
 
   before((done) => {
@@ -73,9 +73,7 @@ describe('services/authentication.js', () => {
         expect(err.errors.password).to.exist;
       }
     });
-
   });
-
 
   after((done) => {
     const db = mongoose.connection;

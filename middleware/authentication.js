@@ -1,6 +1,6 @@
 const passport = require('passport');
 const JwtStrategy = require('passport-jwt').Strategy;
-const ExtractJwt = require('passport-jwt').ExtractJwt;
+const { ExtractJwt } = require('passport-jwt');
 const LocalStrategy = require('passport-local');
 
 const {
@@ -8,12 +8,12 @@ const {
 } = require('../config');
 const {
   validateRefreshToken,
-} = require('../controllers/authentication');
+} = require('../services/authentication');
 const User = require('../models/user');
 
 exports.refreshTokenAuthentication = async (req, res, next) => {
   try {
-    await validateRefreshToken(req.body.refreshToken, req.body.userId);
+    res.locals.user = await validateRefreshToken(req.body.refreshToken);
     next();
   } catch (err) {
     next(err);
@@ -28,7 +28,7 @@ const passportJwtConfig = {
 };
 
 passport.use(new JwtStrategy(passportJwtConfig, (payload, done) => {
-  if (payload.userId) {
+  if (payload._id) {
     return done(null, payload);
   }
   return done(null, false);

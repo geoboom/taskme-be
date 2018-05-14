@@ -55,7 +55,7 @@ const userSchema = mongoose.Schema({
     required: 'Group is required.',
   },
   // taskList: [userTaskSchema],
-  lastLoginTimestamp: {
+  lastSuccessfulLoginTimestamp: {
     type: Date,
   },
   loginAttempts: {
@@ -123,6 +123,12 @@ userSchema.methods.incLoginAttempts = async function () {
   return this.update(updates);
 };
 
+userSchema.methods.updateLastLogin = async function (newDate) {
+  return this.update({
+    $set: { lastSuccessfulLoginTimestamp: newDate },
+  });
+};
+
 userSchema.methods.comparePassword = async function (candidatePassword) {
   return bcrypt.compare(candidatePassword, this.password);
 };
@@ -131,14 +137,19 @@ userSchema.statics.getAuthenticated = async function (username, password) {
   const user = await this.findOne({ username }).exec();
   if (!user) throw reasons.USERNAME_OR_PASSWORD_INCORRECT;
   if (user.isLocked) {
-    await user.incLoginAttempts;
+    await user.incLoginAttempts();
     throw reasons.MAX_ATTEMPTS;
   }
 
   // user is not locked
   const match = await user.comparePassword(password);
   if (match) {
-    if (!user.loginAttempts && !user.lockUntil) return user;
+    user.lastSuccessfulLoginTimestamp = new Date();
+
+    if (!user.loginAttempts && !user.lockUntil) {
+      await user.save();
+      return user;
+    }
 
     const updates = {
       $set: { loginAttempts: 0 },
@@ -146,6 +157,7 @@ userSchema.statics.getAuthenticated = async function (username, password) {
     };
 
     await user.update(updates);
+    await user.save();
     return user;
   }
 

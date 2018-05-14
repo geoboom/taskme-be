@@ -1,14 +1,19 @@
 const {
   userSignup,
-  generateRefreshToken,
-  deleteRefreshToken,
+  invalidateRefreshToken,
+  generateAndPersistRefreshToken,
   generateAccessToken,
 } = require('../services/authentication');
 
 exports.signupPost = async (req, res, next) => {
   try {
     const user = await userSignup(req.body.username, req.body.password);
-    res.json(user);
+    const userData = {
+      _id: user._id,
+      username: user.username,
+      group: user.group,
+    };
+    res.json(userData);
   } catch (err) {
     next(err);
   }
@@ -16,11 +21,20 @@ exports.signupPost = async (req, res, next) => {
 
 exports.loginPost = async (req, res, next) => {
   try {
-    // const token = await generateRefreshToken({
-    //   userId: _id,
-    // });
+    const user = req.user;
+    // to add user profile picture and other metadata
+    const userData = {
+      _id: user._id,
+      username: user.username,
+      group: user.group,
+      lastSuccessfulLoginTimestamp: user.lastSuccessfulLoginTimestamp,
+    };
+
+    const refreshToken = await generateAndPersistRefreshToken(userData);
+
     res.json({
-      user: req.user,
+      refreshToken,
+      userData,
     });
   } catch (err) {
     next(err);
@@ -29,11 +43,7 @@ exports.loginPost = async (req, res, next) => {
 
 exports.tokenPost = async (req, res, next) => {
   try {
-    // userId has been authenticated with refresh token
-    const payload = { userId: req.body.userId };
-    // TODO: fetch more user data e.g. roles from db and include in payload
-    const accessToken = generateAccessToken(payload);
-
+    const accessToken = generateAccessToken(res.locals.user);
     res.json({
       accessToken,
     });
