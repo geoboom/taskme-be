@@ -2,24 +2,18 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d1b0d2dc-9d2f-449e-8de5-26e0d522165d" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/test/services/authenticationRedis.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/services/jobs.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/test/models/jobComponent.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app.js" afterPath="$PROJECT_DIR$/app.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/controllers/authentication.js" afterPath="$PROJECT_DIR$/controllers/authentication.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/helpers/redisAsync.js" afterPath="$PROJECT_DIR$/helpers/redisAsync.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/helpers/redisClient.js" afterPath="$PROJECT_DIR$/helpers/redisClient.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/middleware/authentication.js" afterPath="$PROJECT_DIR$/middleware/authentication.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/middleware/authorization.js" afterPath="$PROJECT_DIR$/middleware/authorization.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/models/job.js" afterPath="$PROJECT_DIR$/models/job.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/models/jobCategory.js" afterPath="$PROJECT_DIR$/models/jobCategory.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/models/jobComponent.js" afterPath="$PROJECT_DIR$/models/jobComponent.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/models/task.js" afterPath="$PROJECT_DIR$/models/task.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/models/user.js" afterPath="$PROJECT_DIR$/models/user.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/package-lock.json" afterPath="$PROJECT_DIR$/package-lock.json" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/package.json" afterPath="$PROJECT_DIR$/package.json" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/services/authentication.js" afterPath="$PROJECT_DIR$/services/authentication.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/models/user.js" afterPath="$PROJECT_DIR$/test/models/user.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/routes/auth.js" afterPath="$PROJECT_DIR$/test/routes/auth.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/test/services/authentication.js" afterPath="$PROJECT_DIR$/test/services/authenticationMongo.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/services/authenticationMongo.js" afterPath="$PROJECT_DIR$/test/services/authenticationMongo.js" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -38,8 +32,8 @@
                 <file leaf-file-name="jobCategory.js" pinned="false" current-in-tab="true">
                   <entry file="file://$PROJECT_DIR$/models/jobCategory.js">
                     <provider selected="true" editor-type-id="text-editor">
-                      <state relative-caret-position="140">
-                        <caret line="4" column="12" lean-forward="false" selection-start-line="4" selection-start-column="12" selection-end-line="4" selection-end-column="12" />
+                      <state relative-caret-position="700">
+                        <caret line="22" column="69" lean-forward="false" selection-start-line="22" selection-start-column="69" selection-end-line="22" selection-end-column="69" />
                         <folding />
                       </state>
                     </provider>
@@ -59,11 +53,11 @@
             </split-first>
             <split-second>
               <leaf>
-                <file leaf-file-name="package.json" pinned="false" current-in-tab="true">
+                <file leaf-file-name="package.json" pinned="false" current-in-tab="false">
                   <entry file="file://$PROJECT_DIR$/package.json">
                     <provider selected="true" editor-type-id="text-editor">
                       <state relative-caret-position="210">
-                        <caret line="6" column="56" lean-forward="false" selection-start-line="6" selection-start-column="56" selection-end-line="6" selection-end-column="56" />
+                        <caret line="6" column="64" lean-forward="false" selection-start-line="6" selection-start-column="64" selection-end-line="6" selection-end-column="64" />
                         <folding />
                       </state>
                     </provider>
@@ -72,8 +66,28 @@
                 <file leaf-file-name="job.js" pinned="false" current-in-tab="false">
                   <entry file="file://$PROJECT_DIR$/models/job.js">
                     <provider selected="true" editor-type-id="text-editor">
-                      <state relative-caret-position="0">
-                        <caret line="30" column="3" lean-forward="false" selection-start-line="30" selection-start-column="3" selection-end-line="30" selection-end-column="3" />
+                      <state relative-caret-position="570">
+                        <caret line="81" column="16" lean-forward="false" selection-start-line="81" selection-start-column="16" selection-end-line="81" selection-end-column="16" />
+                        <folding />
+                      </state>
+                    </provider>
+                  </entry>
+                </file>
+                <file leaf-file-name="authenticationMongo.js" pinned="false" current-in-tab="false">
+                  <entry file="file://$PROJECT_DIR$/test/services/authenticationMongo.js">
+                    <provider selected="true" editor-type-id="text-editor">
+                      <state relative-caret-position="1162">
+                        <caret line="77" column="2" lean-forward="false" selection-start-line="77" selection-start-column="2" selection-end-line="77" selection-end-column="2" />
+                        <folding />
+                      </state>
+                    </provider>
+                  </entry>
+                </file>
+                <file leaf-file-name="user.js" pinned="false" current-in-tab="true">
+                  <entry file="file://$PROJECT_DIR$/models/user.js">
+                    <provider selected="true" editor-type-id="text-editor">
+                      <state relative-caret-position="-840">
+                        <caret line="77" column="0" lean-forward="false" selection-start-line="77" selection-start-column="0" selection-end-line="77" selection-end-column="0" />
                         <folding />
                       </state>
                     </provider>
@@ -99,22 +113,28 @@
     <splitter split-orientation="horizontal" split-proportion="0.5">
       <split-first>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="450">
-          <file leaf-file-name="user.js" pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/models/user.js">
+          <file leaf-file-name="task.js" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/models/task.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="665">
-                  <caret line="154" column="32" lean-forward="false" selection-start-line="154" selection-start-column="32" selection-end-line="154" selection-end-column="32" />
-                  <folding />
+                <state relative-caret-position="1097">
+                  <caret line="179" column="0" lean-forward="false" selection-start-line="179" selection-start-column="0" selection-end-line="179" selection-end-column="0" />
+                  <folding>
+                    <element signature="e#213#437#0" expanded="false" />
+                    <element signature="e#478#737#0" expanded="false" />
+                    <element signature="e#791#1165#0" expanded="false" />
+                  </folding>
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="task.js" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/models/task.js">
+          <file leaf-file-name="jobComponent.js" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/test/models/jobComponent.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="105">
-                  <caret line="3" column="2" lean-forward="false" selection-start-line="3" selection-start-column="2" selection-end-line="3" selection-end-column="2" />
-                  <folding />
+                <state relative-caret-position="1155">
+                  <caret line="52" column="45" lean-forward="false" selection-start-line="52" selection-start-column="45" selection-end-line="52" selection-end-column="45" />
+                  <folding>
+                    <element signature="n#!!doc" expanded="true" />
+                  </folding>
                 </state>
               </provider>
             </entry>
@@ -126,8 +146,38 @@
           <file leaf-file-name="jobComponent.js" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/models/jobComponent.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="385">
-                  <caret line="11" column="16" lean-forward="false" selection-start-line="11" selection-start-column="16" selection-end-line="11" selection-end-column="16" />
+                <state relative-caret-position="350">
+                  <caret line="10" column="18" lean-forward="false" selection-start-line="10" selection-start-column="18" selection-end-line="10" selection-end-column="18" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="authentication.js" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/services/authentication.js">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="735">
+                  <caret line="21" column="36" lean-forward="true" selection-start-line="21" selection-start-column="36" selection-end-line="21" selection-end-column="36" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="jobs.js" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/services/jobs.js">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="140">
+                  <caret line="4" column="0" lean-forward="true" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="user.js" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/test/models/user.js">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="922">
+                  <caret line="168" column="0" lean-forward="false" selection-start-line="168" selection-start-column="0" selection-end-line="168" selection-end-column="0" />
                   <folding />
                 </state>
               </provider>
@@ -148,7 +198,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/index.js" />
         <option value="$PROJECT_DIR$/routes/users.js" />
         <option value="$PROJECT_DIR$/helpers/tokens.js" />
         <option value="$PROJECT_DIR$/routes/register.js" />
@@ -171,7 +220,6 @@
         <option value="$PROJECT_DIR$/services/connect.js" />
         <option value="$PROJECT_DIR$/socket.js" />
         <option value="$PROJECT_DIR$/routes/index.js" />
-        <option value="$PROJECT_DIR$/models/task.js" />
         <option value="$PROJECT_DIR$/routes/auth.js" />
         <option value="$PROJECT_DIR$/tests/test.js" />
         <option value="$PROJECT_DIR$/models/usertesting.js" />
@@ -183,21 +231,24 @@
         <option value="$PROJECT_DIR$/models/db.js" />
         <option value="$PROJECT_DIR$/app.js" />
         <option value="$PROJECT_DIR$/test/services/authentication.js" />
-        <option value="$PROJECT_DIR$/test/services/authenticationMongo.js" />
         <option value="$PROJECT_DIR$/helpers/redisClient.js" />
         <option value="$PROJECT_DIR$/helpers/redisAsync.js" />
         <option value="$PROJECT_DIR$/test/services/authenticationRedis.js" />
-        <option value="$PROJECT_DIR$/services/authentication.js" />
         <option value="$PROJECT_DIR$/controllers/authentication.js" />
         <option value="$PROJECT_DIR$/middleware/authentication.js" />
         <option value="$PROJECT_DIR$/test/routes/auth.js" />
         <option value="$PROJECT_DIR$/middleware/authorization.js" />
+        <option value="$PROJECT_DIR$/services/authentication.js" />
+        <option value="$PROJECT_DIR$/services/jobs.js" />
+        <option value="$PROJECT_DIR$/models/task.js" />
+        <option value="$PROJECT_DIR$/test/models/user.js" />
+        <option value="$PROJECT_DIR$/test/services/authenticationMongo.js" />
+        <option value="$PROJECT_DIR$/package.json" />
+        <option value="$PROJECT_DIR$/models/job.js" />
+        <option value="$PROJECT_DIR$/models/user.js" />
         <option value="$PROJECT_DIR$/models/jobCategory.js" />
         <option value="$PROJECT_DIR$/models/jobComponent.js" />
-        <option value="$PROJECT_DIR$/models/job.js" />
-        <option value="$PROJECT_DIR$/package.json" />
-        <option value="$PROJECT_DIR$/models/user.js" />
-        <option value="$PROJECT_DIR$/test/models/user.js" />
+        <option value="$PROJECT_DIR$/test/models/jobComponent.js" />
       </list>
     </option>
   </component>
@@ -268,16 +319,6 @@
             <path>
               <item name="taskme-be" type="b2602c69:ProjectViewProjectNode" />
               <item name="taskme-be" type="462c0819:PsiDirectoryNode" />
-              <item name="helpers" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="taskme-be" type="b2602c69:ProjectViewProjectNode" />
-              <item name="taskme-be" type="462c0819:PsiDirectoryNode" />
-              <item name="middleware" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="taskme-be" type="b2602c69:ProjectViewProjectNode" />
-              <item name="taskme-be" type="462c0819:PsiDirectoryNode" />
               <item name="models" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -342,7 +383,7 @@
     <property name="node.js.detected.package.jscs" value="true" />
     <property name="node.js.selected.package.jscs" value="" />
     <property name="restartRequiresConfirmation" value="false" />
-    <property name="SearchEverywhereHistoryKey" value="user&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/test/models/user.js&#10;config&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/config.js&#10;packa&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/package.json&#10;authenticationMongo&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/test/services/authenticationMongo.js&#10;async&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/helpers/redisAsync.js&#10;auth&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/routes/auth.js&#10;redis&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/helpers/redisClient.js&#10;models/user&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/models/user.js&#10;db&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/models/db.js&#10;app&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/app.js&#10;pack&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/package.json&#10;redisA&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/helpers/redisAsync.js&#10;eslintrc&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/.eslintrc&#10;package&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/package.json&#10;test.js&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/test/test.js&#10;app.js&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/app.js&#10;controllers/authen&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/controllers/authentication.js&#10;services/authentication&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/services/authentication.js&#10;authentication&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/middleware/authentication.js&#10;services/connect&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/services/connect.js&#10;socket.js&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/socket.js&#10;services/co&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/services/connect.js&#10;routes/connect&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/routes/connect.js&#10;connect&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/controllers/connect.js&#10;connectRouter&#9;null&#9;null&#10;routes/index&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/routes/index.js&#10;middleware/authentication&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/middleware/authentication.js&#10;routes&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/node_modules/mongoose/examples/express/connection-sharing/routes.js&#10;socket/aut&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/middleware/socket/authentication.js&#10;socket&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/socket.js&#10;cry&#9;null&#9;null&#10;.env&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/.env&#10;redisClient&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/services/redisClient.js&#10;token&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/helpers/tokens.js&#10;apiE&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/helpers/apiError.js&#10;www&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/bin/www&#10;bin/www&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/bin/www" />
+    <property name="SearchEverywhereHistoryKey" value="test/models/jobCom&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/test/models/jobComponent.js&#10;test/auth&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/test/services/authenticationMongo.js&#10;packa&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/package.json&#10;test/models/us&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/test/models/user.js&#10;test&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/routes/testAuth.js&#10;package.json&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/package.json&#10;services/authen&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/services/authentication.js&#10;user&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/test/models/user.js&#10;config&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/config.js&#10;authenticationMongo&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/test/services/authenticationMongo.js&#10;async&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/helpers/redisAsync.js&#10;auth&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/routes/auth.js&#10;redis&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/helpers/redisClient.js&#10;models/user&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/models/user.js&#10;db&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/models/db.js&#10;app&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/app.js&#10;pack&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/package.json&#10;redisA&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/helpers/redisAsync.js&#10;eslintrc&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/.eslintrc&#10;package&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/package.json&#10;test.js&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/test/test.js&#10;app.js&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/app.js&#10;controllers/authen&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/controllers/authentication.js&#10;services/authentication&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/services/authentication.js&#10;authentication&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/middleware/authentication.js&#10;services/connect&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/services/connect.js&#10;socket.js&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/socket.js&#10;services/co&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/services/connect.js&#10;routes/connect&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/routes/connect.js&#10;connect&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/controllers/connect.js&#10;connectRouter&#9;null&#9;null&#10;routes/index&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/routes/index.js&#10;middleware/authentication&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/middleware/authentication.js&#10;routes&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/node_modules/mongoose/examples/express/connection-sharing/routes.js&#10;socket/aut&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/middleware/socket/authentication.js&#10;socket&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/socket.js&#10;cry&#9;null&#9;null&#10;.env&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/.env&#10;redisClient&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/services/redisClient.js&#10;token&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/helpers/tokens.js&#10;apiE&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/helpers/apiError.js&#10;www&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/bin/www&#10;bin/www&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/bin/www" />
     <property name="javascript.nodejs.core.library.configured.version" value="10.0.0" />
   </component>
   <component name="RecentsManager">
@@ -499,16 +540,15 @@
       <workItem from="1525097596363" duration="144000" />
       <workItem from="1525230201557" duration="5000" />
       <workItem from="1525378935220" duration="27000" />
-      <workItem from="1526038066971" duration="78525000" />
+      <workItem from="1526038066971" duration="97918000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="170861000" />
+    <option name="totallyTimeSpent" value="190254000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="3856" height="2136" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -519,7 +559,7 @@
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.22091837" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.35357141" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.26632652" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.119791664" sideWeight="0.4973992" order="0" side_tool="false" content_ui="combo" />
@@ -549,8 +589,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/index.js" />
-    <entry file="file://$PROJECT_DIR$/src/db.js" />
     <entry file="file://$PROJECT_DIR$/src/db.js" />
     <entry file="file://$PROJECT_DIR$/src/index.js" />
     <entry file="file://$PROJECT_DIR$/routes/users.js" />
@@ -591,14 +629,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="245">
           <caret line="7" column="28" lean-forward="false" selection-start-line="7" selection-start-column="28" selection-end-line="7" selection-end-column="28" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/routes/testAuth.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -731,16 +761,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/test/services/authenticationMongo.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="385">
-          <caret line="11" column="4" lean-forward="false" selection-start-line="11" selection-start-column="4" selection-end-line="11" selection-end-column="4" />
-          <folding>
-            <element signature="n#!!doc" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/helpers/redisAsync.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="385">
@@ -791,14 +811,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/services/authentication.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="436">
-          <caret line="90" column="0" lean-forward="true" selection-start-line="90" selection-start-column="0" selection-end-line="90" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/middleware/authorization.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="70">
@@ -833,26 +845,34 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/models/jobCategory.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="140">
-          <caret line="4" column="12" lean-forward="false" selection-start-line="4" selection-start-column="12" selection-end-line="4" selection-end-column="12" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/models/job.js">
+    <entry file="file://$PROJECT_DIR$/routes/testAuth.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
-          <caret line="30" column="3" lean-forward="false" selection-start-line="30" selection-start-column="3" selection-end-line="30" selection-end-column="3" />
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/models/task.js">
+    <entry file="file://$PROJECT_DIR$/services/authentication.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="3" column="2" lean-forward="false" selection-start-line="3" selection-start-column="2" selection-end-line="3" selection-end-column="2" />
+        <state relative-caret-position="735">
+          <caret line="21" column="36" lean-forward="true" selection-start-line="21" selection-start-column="36" selection-end-line="21" selection-end-column="36" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/services/jobs.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="140">
+          <caret line="4" column="0" lean-forward="true" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test/models/user.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="922">
+          <caret line="168" column="0" lean-forward="false" selection-start-line="168" selection-start-column="0" selection-end-line="168" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -860,32 +880,70 @@
     <entry file="file://$PROJECT_DIR$/package.json">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="210">
-          <caret line="6" column="56" lean-forward="false" selection-start-line="6" selection-start-column="56" selection-end-line="6" selection-end-column="56" />
+          <caret line="6" column="64" lean-forward="false" selection-start-line="6" selection-start-column="64" selection-end-line="6" selection-end-column="64" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/test/models/user.js">
+    <entry file="file://$PROJECT_DIR$/models/job.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="490">
-          <caret line="161" column="36" lean-forward="false" selection-start-line="161" selection-start-column="36" selection-end-line="161" selection-end-column="36" />
+        <state relative-caret-position="570">
+          <caret line="81" column="16" lean-forward="false" selection-start-line="81" selection-start-column="16" selection-end-line="81" selection-end-column="16" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/models/jobComponent.js">
+    <entry file="file://$PROJECT_DIR$/test/services/authenticationMongo.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="385">
-          <caret line="11" column="16" lean-forward="false" selection-start-line="11" selection-start-column="16" selection-end-line="11" selection-end-column="16" />
+        <state relative-caret-position="1162">
+          <caret line="77" column="2" lean-forward="false" selection-start-line="77" selection-start-column="2" selection-end-line="77" selection-end-column="2" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/models/user.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="665">
-          <caret line="154" column="32" lean-forward="false" selection-start-line="154" selection-start-column="32" selection-end-line="154" selection-end-column="32" />
+        <state relative-caret-position="-840">
+          <caret line="77" column="0" lean-forward="false" selection-start-line="77" selection-start-column="0" selection-end-line="77" selection-end-column="0" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/models/jobCategory.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="700">
+          <caret line="22" column="69" lean-forward="false" selection-start-line="22" selection-start-column="69" selection-end-line="22" selection-end-column="69" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/models/task.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1097">
+          <caret line="179" column="0" lean-forward="false" selection-start-line="179" selection-start-column="0" selection-end-line="179" selection-end-column="0" />
+          <folding>
+            <element signature="e#213#437#0" expanded="false" />
+            <element signature="e#478#737#0" expanded="false" />
+            <element signature="e#791#1165#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/models/jobComponent.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="350">
+          <caret line="10" column="18" lean-forward="false" selection-start-line="10" selection-start-column="18" selection-end-line="10" selection-end-column="18" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test/models/jobComponent.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1155">
+          <caret line="52" column="45" lean-forward="false" selection-start-line="52" selection-start-column="45" selection-end-line="52" selection-end-column="45" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

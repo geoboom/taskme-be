@@ -6,28 +6,6 @@ const SALT_WORK_FACTOR = 10;
 const MAX_LOGIN_ATTEMPS = 5;
 const LOCK_TIME = 2 * 60 * 60 * 1000;
 
-// const userTaskSchema = mongoose.Schema({
-// {
-//   taskId: {
-//
-//   },
-//   status: {
-//
-//   },
-//   isLeader: {
-//
-//   },
-//   activity: [
-//     activityType: {
-//
-// },
-//   timestamp: {
-//
-//   },
-// ],
-// }
-// });
-
 const userSchema = mongoose.Schema({
   _id: mongoose.Schema.Types.ObjectId,
   username: {
@@ -54,7 +32,6 @@ const userSchema = mongoose.Schema({
     default: 'worker',
     required: 'Group is required.',
   },
-  // taskList: [userTaskSchema],
   lastSuccessfulLoginTimestamp: {
     type: Date,
   },
@@ -98,7 +75,8 @@ userSchema.pre('save', function (next) {
   });
 });
 
-const reasons = userSchema.statics.failedLogin = {
+const reasons = userSchema.statics.apiErrors = {
+  USERNAME_EXISTS: new ApiError('Username exists.', 409),
   USERNAME_OR_PASSWORD_INCORRECT: new ApiError('Wrong username or password.', 401),
   MAX_ATTEMPTS: new ApiError('Account temporarily locked.', 403),
 };
@@ -131,6 +109,21 @@ userSchema.methods.updateLastLogin = async function (newDate) {
 
 userSchema.methods.comparePassword = async function (candidatePassword) {
   return bcrypt.compare(candidatePassword, this.password);
+};
+
+userSchema.statics.signup = async function(username, password) {
+  const user = await this.findOne({ username }).exec();
+  if (user) {
+    throw reasons.USERNAME_EXISTS;
+  }
+
+  const newUser = new this({
+    _id: new mongoose.Types.ObjectId(),
+    username,
+    password,
+  });
+
+  return newUser.save();
 };
 
 userSchema.statics.getAuthenticated = async function (username, password) {

@@ -75,12 +75,9 @@ describe('services/authentication.js mongo', () => {
     });
   });
 
-  after((done) => {
+  after(async () => {
+    await User.remove({}).exec();
     const db = mongoose.connection;
-    db.close();
-    db.once('close', () => {
-      console.log('db connection closed');
-      done();
-    });
+    await db.close();
   });
 });

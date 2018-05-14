@@ -1,4 +1,3 @@
-const mongoose = require('mongoose');
 const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
 
@@ -25,20 +24,7 @@ const User = require('../models/user');
 const REFRESH_TOKEN_EXPIRY = 7 * 24 * 60 * 60; // 1 week, in s
 const REFRESH_TOKEN_KEY = 'refresh-tokens';
 
-exports.userSignup = async (username, password) => {
-  const user = await User.findOne({ username }).exec();
-  if (user) {
-    throw new ApiError('Username exists.', 409);
-  }
-
-  const newUser = new User({
-    _id: new mongoose.Types.ObjectId(),
-    username,
-    password,
-  });
-
-  return newUser.save();
-};
+exports.userSignup = async (username, password) => User.signup(username, password);
 
 exports.generateAndPersistRefreshToken = async (payload) => {
   let refreshToken;
