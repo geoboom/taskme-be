@@ -4,18 +4,12 @@ const { expect } = require('chai');
 const mongoose = require('mongoose');
 
 const JobComponent = require('../../models/jobComponent');
+const { initializeDB } = require('./dbHelper');
+
 const sleep = require('util').promisify(setTimeout);
 
 describe('/models/jobComponent.js', () => {
-  before((done) => {
-    mongoose.connect(`mongodb://geoboom:${process.env.DB_PASS}@ds029595.mlab.com:29595/taskme-db-${process.env.NODE_ENV}`);
-    const db = mongoose.connection;
-    db.on('error', console.error.bind(console, 'connection error'));
-    db.once('open', () => {
-      console.log('connected to test db');
-      done();
-    });
-  });
+  before(initializeDB(mongoose));
 
   it('should error if job component is blank', async () => {
     try {
@@ -33,13 +27,13 @@ describe('/models/jobComponent.js', () => {
     }
   });
 
-  const testComponent = 'test component';
-  const sameComponent = testComponent;
+  const TEST_COMPONENT = 'test component';
+  const SAME_COMPONENT = TEST_COMPONENT;
 
   it('should return job component if save successful', async () => {
     try {
-      const jobComponent = await JobComponent.createComponent(testComponent);
-      expect(jobComponent.component).to.equal(testComponent);
+      const jobComponent = await JobComponent.createComponent(TEST_COMPONENT);
+      expect(jobComponent.component).to.equal(TEST_COMPONENT);
     } catch (err) {
       console.log(err);
       throw err;
@@ -48,9 +42,9 @@ describe('/models/jobComponent.js', () => {
 
   it('should return job component trimmed if trimmed(job component) != job component', async () => {
     try {
-      const untrimmedComponent = '123456789123456789   ';
-      const jobComponent = await JobComponent.createComponent(untrimmedComponent);
-      expect(jobComponent.component).to.equal(untrimmedComponent.trim());
+      const UNTRIMMED_COMPONENT = '123456789123456789   ';
+      const jobComponent = await JobComponent.createComponent(UNTRIMMED_COMPONENT);
+      expect(jobComponent.component).to.equal(UNTRIMMED_COMPONENT.trim());
     } catch (err) {
       console.log(err);
       throw err;
@@ -59,7 +53,7 @@ describe('/models/jobComponent.js', () => {
 
   it('should apiError if we attempt to save an already existing job component', async () => {
     try {
-      await JobComponent.createComponent(sameComponent);
+      await JobComponent.createComponent(SAME_COMPONENT);
     } catch (err) {
       expect(err.status).to.equal(409);
       expect(err.message).to.equal('Component exists.');
@@ -68,7 +62,6 @@ describe('/models/jobComponent.js', () => {
 
   after(async () => {
     await JobComponent.remove({}).exec();
-    const db = mongoose.connection;
-    await db.close();
+    await mongoose.connection.close();
   });
 });

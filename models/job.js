@@ -6,16 +6,11 @@ const JobComponent = require('./jobComponent');
 let validCategories = [];
 let validComponents = [];
 
-// const categoryValidator = category => validCategories.includes(category);
-// validate: {
-//   validator: categoryValidator,
-//     message: 'Invalid category.',
-// },
-// const componentValidator = component => validComponents.includes(component);
-// validate: {
-//   validator: componentValidator,
-//     message: 'Invalid component.',
-// },
+const categoryValidator = category => validCategories.includes(category);
+const componentValidator = component => validComponents.includes(component);
+
+const TITLE_MAXLEN = 80;
+const DESC_MAXLEN = 200;
 
 const jobSchema = mongoose.Schema({
   _id: mongoose.Schema.Types.ObjectId,
@@ -24,12 +19,8 @@ const jobSchema = mongoose.Schema({
     trim: true,
     validate: [
       {
-        validator: v => v.trim().length > 0,
-        message: 'Job title cannot be blank.',
-      },
-      {
-        validator: v => v.trim().length < 100,
-        message: 'Job title cannot have more than 100 characters.',
+        validator: v => v.trim().length < TITLE_MAXLEN,
+        message: `Job title cannot have more than ${TITLE_MAXLEN} characters.`,
       },
     ],
     required: 'Job title required.',
@@ -37,22 +28,27 @@ const jobSchema = mongoose.Schema({
   description: {
     type: String,
     trim: true,
-    validate: {
-      validate: [
-        {
-          validator: v => v.trim().length < 200,
-          message: 'Job description cannot have more than 200 characters.',
-        },
-      ],
-    },
+    validate: [
+      {
+        validator: v => v.trim().length < DESC_MAXLEN,
+        message: `Job description cannot have more than ${DESC_MAXLEN} characters.`,
+      },
+    ],
   },
   category: {
     type: String,
-    enum: validCategories,
+    validate: {
+      validator: categoryValidator,
+      message: 'Category does not exist.',
+    },
     required: 'Job category required.',
   },
   component: {
     type: String,
+    validate: {
+      validator: componentValidator,
+      message: 'Component does not exist.',
+    },
     enum: validComponents,
     required: 'Job component required.',
   },
@@ -68,17 +64,17 @@ const jobSchema = mongoose.Schema({
 
 jobSchema.pre('validate', async (next) => {
   const result = await Promise.all([
-    JobComponent.find({}),
-    JobCategory.find({}),
+    JobComponent.find({}).exec(),
+    JobCategory.find({}).exec(),
   ]);
 
-  validComponents = result[1].map(o => o.component);
-  validCategories = result[2].map(o => o.category);
+  validComponents = result[0].map(o => o.component);
+  validCategories = result[1].map(o => o.category);
 
   next();
 });
 
-jobSchema.statics.createJob = async (title, description, category, component) => {
+jobSchema.statics.createJob = async function (title, description, category, component) {
   const job = new this({
     _id: new mongoose.Types.ObjectId(),
     title,

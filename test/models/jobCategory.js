@@ -4,18 +4,12 @@ const { expect } = require('chai');
 const mongoose = require('mongoose');
 
 const JobCategory = require('../../models/jobCategory');
+const { initializeDB } = require('./dbHelper');
+
 const sleep = require('util').promisify(setTimeout);
 
 describe('/models/jobCategory.js', () => {
-  before((done) => {
-    mongoose.connect(`mongodb://geoboom:${process.env.DB_PASS}@ds029595.mlab.com:29595/taskme-db-${process.env.NODE_ENV}`);
-    const db = mongoose.connection;
-    db.on('error', console.error.bind(console, 'connection error'));
-    db.once('open', () => {
-      console.log('connected to test db');
-      done();
-    });
-  });
+  before(initializeDB(mongoose));
 
   it('should error if job category is blank', async () => {
     try {
@@ -33,13 +27,13 @@ describe('/models/jobCategory.js', () => {
     }
   });
 
-  const testCategory = 'test category';
-  const sameCategory = testCategory;
+  const TEST_CATEGORY = 'test category';
+  const CORRECT_CATEGORY = TEST_CATEGORY;
 
   it('should return job category if save successful', async () => {
     try {
-      const jobCategory = await JobCategory.createCategory(testCategory);
-      expect(jobCategory.category).to.equal(testCategory);
+      const jobCategory = await JobCategory.createCategory(TEST_CATEGORY);
+      expect(jobCategory.category).to.equal(TEST_CATEGORY);
     } catch (err) {
       console.log(err);
       throw err;
@@ -48,9 +42,9 @@ describe('/models/jobCategory.js', () => {
 
   it('should return job category trimmed if trimmed(job category) != job category', async () => {
     try {
-      const untrimmedCategory = '123456789123456789   ';
-      const jobCategory = await JobCategory.createCategory(untrimmedCategory);
-      expect(jobCategory.category).to.equal(untrimmedCategory.trim());
+      const UNTRIMMED_CATEGORY = '123456789123456789   ';
+      const jobCategory = await JobCategory.createCategory(UNTRIMMED_CATEGORY);
+      expect(jobCategory.category).to.equal(UNTRIMMED_CATEGORY.trim());
     } catch (err) {
       console.log(err);
       throw err;
@@ -59,7 +53,7 @@ describe('/models/jobCategory.js', () => {
 
   it('should apiError if we attempt to save an already existing job category', async () => {
     try {
-      await JobCategory.createCategory(sameCategory);
+      await JobCategory.createCategory(CORRECT_CATEGORY);
     } catch (err) {
       expect(err.status).to.equal(409);
       expect(err.message).to.equal('Category exists.');
@@ -68,7 +62,6 @@ describe('/models/jobCategory.js', () => {
 
   after(async () => {
     await JobCategory.remove({}).exec();
-    const db = mongoose.connection;
-    await db.close();
+    await mongoose.connection.close();
   });
 });

@@ -126,6 +126,22 @@ userSchema.statics.signup = async function(username, password) {
   return newUser.save();
 };
 
+userSchema.statics.createAdmin = async function (username, password) {
+  const user = await this.findOne({ username }).exec();
+  if (user) {
+    throw reasons.USERNAME_EXISTS;
+  }
+
+  const newUser = new this({
+    _id: new mongoose.Types.ObjectId(),
+    username,
+    password,
+    group: 'admin',
+  });
+
+  return newUser.save();
+};
+
 userSchema.statics.getAuthenticated = async function (username, password) {
   const user = await this.findOne({ username }).exec();
   if (!user) throw reasons.USERNAME_OR_PASSWORD_INCORRECT;

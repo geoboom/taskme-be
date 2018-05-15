@@ -4,71 +4,127 @@ const { expect } = require('chai');
 const mongoose = require('mongoose');
 
 const Job = require('../../models/job');
+const JobCategory = require('../../models/jobCategory');
+const JobComponent = require('../../models/jobComponent');
+const { initializeDB } = require('./dbHelper');
+
 const sleep = require('util').promisify(setTimeout);
 
 describe('/models/job.js', () => {
-  before((done) => {
-    mongoose.connect(`mongodb://geoboom:${process.env.DB_PASS}@ds029595.mlab.com:29595/taskme-db-${process.env.NODE_ENV}`);
-    const db = mongoose.connection;
-    db.on('error', console.error.bind(console, 'connection error'));
-    db.once('open', () => {
-      console.log('connected to test db');
-      done();
-    });
+  before(initializeDB(mongoose));
+
+  const TEST_CATEGORY = 'test category';
+  const TEST_COMPONENT = 'test component';
+
+  before(async () => {
+    await Promise.all([
+      JobComponent.remove({}).exec(),
+      JobCategory.remove({}).exec(),
+      Job.remove({}).exec(),
+    ]);
+    await Promise.all([
+      JobComponent.createComponent(TEST_COMPONENT),
+      JobCategory.createCategory(TEST_CATEGORY),
+    ]);
   });
 
-  it('should error if job category is blank', async () => {
+  const CORRECT_CATEGORY = TEST_CATEGORY;
+  const CORRECT_COMPONENT = TEST_COMPONENT;
+  const WRONG_CATEGORY = 'wrong category';
+  const WRONG_COMPONENT = 'wrong component';
+
+  const GOOD_TITLE = 'good title';
+  const BAD_TITLE = '123456789 123456789 123456789 123456789 123456789 123456789 123456789 123456789';
+  const GOOD_DESC = 'good desc';
+  const BAD_DESC = BAD_TITLE + BAD_TITLE + BAD_TITLE;
+
+  it('should error if job title is blank', async () => {
     try {
-      await JobCategory.createCategory();
+      await Job.createJob('', GOOD_DESC, CORRECT_CATEGORY, CORRECT_COMPONENT);
     } catch (err) {
-      expect(err.errors.category.message).to.equal('Category is required.');
+      expect(err.errors.title.message).to.equal('Job title required.');
     }
   });
 
-  it('should error if job category has more than 20 characters', async () => {
+  it('should error if job title is too long', async () => {
     try {
-      await JobCategory.createCategory('123456789123456789123'); // 9 + 9 + 3 = 21 characters
+      await Job.createJob(BAD_TITLE, GOOD_DESC, CORRECT_CATEGORY, CORRECT_COMPONENT);
     } catch (err) {
-      expect(err.errors.category.message).to.equal('Job category cannot have more than 20 characters.');
+      expect(err.errors.title.message).to.equal('Job title cannot have more than 80 characters.');
     }
   });
 
-  const testCategory = 'test category';
-  const sameCategory = testCategory;
-
-  it('should return job category if save successful', async () => {
+  it('should error if job desc is too long', async () => {
     try {
-      const jobCategory = await JobCategory.createCategory(testCategory);
-      expect(jobCategory.category).to.equal(testCategory);
+      await Job.createJob(GOOD_TITLE, BAD_DESC, CORRECT_CATEGORY, CORRECT_COMPONENT);
+    } catch (err) {
+      expect(err.errors.description.message).to.equal('Job description cannot have more than 200 characters.');
+    }
+  });
+
+  it('should error if job category not found', async () => {
+    try {
+      const job = await Job.createJob(GOOD_TITLE, GOOD_DESC, WRONG_CATEGORY, CORRECT_COMPONENT);
+      console.log(job);
+    } catch (err) {
+      expect(err.errors.category.message).to.equal('Category does not exist.');
+    }
+  });
+
+  it('should error if job component not found', async () => {
+    try {
+      const job = await Job.createJob(GOOD_TITLE, GOOD_DESC, CORRECT_CATEGORY, WRONG_COMPONENT);
+      console.log(job);
+    } catch (err) {
+      expect(err.errors.component.message).to.equal('Component does not exist.');
+    }
+  });
+
+  it('should create and return job object successfully if all fields are valid', async () => {
+    try {
+      const job = await Job.createJob(GOOD_TITLE, GOOD_DESC, CORRECT_CATEGORY, CORRECT_COMPONENT);
+      expect(job.title).to.equal(GOOD_TITLE);
+      expect(job.description).to.equal(GOOD_DESC);
+      expect(job.category).to.equal(CORRECT_CATEGORY);
+      expect(job.component).to.equal(CORRECT_COMPONENT);
     } catch (err) {
       console.log(err);
       throw err;
     }
   });
 
-  it('should return job category trimmed if trimmed(job category) != job category', async () => {
+  it('should create and return job object successfully if all fields are valid with blank desc', async () => {
     try {
-      const untrimmedCategory = '123456789123456789   ';
-      const jobCategory = await JobCategory.createCategory(untrimmedCategory);
-      expect(jobCategory.category).to.equal(untrimmedCategory.trim());
+      const job = await Job.createJob(GOOD_TITLE, '', CORRECT_CATEGORY, CORRECT_COMPONENT);
+      expect(job.title).to.equal(GOOD_TITLE);
+      expect(job.description).to.equal('');
+      expect(job.category).to.equal(CORRECT_CATEGORY);
+      expect(job.component).to.equal(CORRECT_COMPONENT);
     } catch (err) {
       console.log(err);
       throw err;
     }
   });
 
-  it('should apiError if we attempt to save an already existing job category', async () => {
+  it('should create and return job object successfully if all fields are valid with undefined desc', async () => {
     try {
-      await JobCategory.createCategory(sameCategory);
+      const job = await Job.createJob(GOOD_TITLE, undefined, CORRECT_CATEGORY, CORRECT_COMPONENT);
+      expect(job.title).to.equal(GOOD_TITLE);
+      expect(job.description).to.not.exist;
+      expect(job.category).to.equal(CORRECT_CATEGORY);
+      expect(job.component).to.equal(CORRECT_COMPONENT);
     } catch (err) {
-      expect(err.status).to.equal(409);
-      expect(err.message).to.equal('Category exists.');
+      console.log(err);
+      throw err;
     }
   });
 
   after(async () => {
-    await JobCategory.remove({}).exec();
-    const db = mongoose.connection;
-    await db.close();
+    await Promise.all([
+      JobComponent.remove({}).exec(),
+      JobCategory.remove({}).exec(),
+      Job.remove({}).exec(),
+    ]);
+    await mongoose.connection.close();
   });
 });
