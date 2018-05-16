@@ -7,6 +7,11 @@ const User = require('./user');
 let allUsers = [];
 const assignmentStatuses = {
   'Pending Accept': {
+    scores: {
+      s1: 1,
+      s2: 1,
+    },
+    taskEndActivity: 'No Response',
     incoming: [
       'Assigned',
     ],
@@ -15,6 +20,11 @@ const assignmentStatuses = {
     ],
   },
   'Not Started': {
+    scores: {
+      s1: 1,
+      s2: 2,
+    },
+    taskEndActivity: 'No Participation',
     incoming: [
       'Accept',
     ],
@@ -25,33 +35,57 @@ const assignmentStatuses = {
     ],
   },
   'In Progress': {
+    scores: {
+      s1: 2,
+      s2: 4,
+    },
+    taskEndActivity: 'Task End',
     incoming: [
       'Start',
       'Resume',
     ],
     outgoing: [
       'Pause',
-      'Complete',
+      'Task End',
       'Mark Complete',
       'Drop',
       'Removed',
     ],
   },
   Paused: {
+    scores: {
+      s1: 2,
+      s2: 3,
+    },
+    taskEndActivity: 'Task End',
     incoming: [
       'Pause',
     ],
     outgoing: [
       'Resume',
-      'Complete',
+      'Task End',
       'Drop',
       'Removed',
     ],
   },
   Completed: {
     incoming: [
-      'Complete',
+      'Task End',
       'Mark Complete',
+    ],
+    outgoing: [
+    ],
+  },
+  Uninvolved: {
+    incoming: [
+      'No Participation',
+    ],
+    outgoing: [
+    ],
+  },
+  Unaccepted: {
+    incoming: [
+      'No Response',
     ],
     outgoing: [
     ],
@@ -80,22 +114,33 @@ const assignmentStatuses = {
       'Assigned',
     ],
   },
-  Uninvolved: {
-    incoming: [
-      'Task End',
-    ],
-    outgoing: [
-    ],
-  },
-  Unaccepted: {
-    incoming: [
-      'Task End',
-    ],
-    outgoing: [
-    ],
-  },
 };
 
+const allowedMemberActivities = [
+  'Accept',
+  'Start',
+  'Pause',
+  'Resume',
+  'Drop',
+];
+const softDelStatuses = [
+  'Uninvolved',
+  'Unaccepted',
+  'Dropped',
+  'Rejected',
+  'Removed',
+];
+const activityValid = (currentStatus, activity, isLeader) => {
+  if (activity === 'Mark Complete') {
+    // check if currentStatus permits such activity
+    return (isLeader && assignmentStatuses[currentStatus].outgoing.includes(activity));
+  }
+
+  return (
+    allowedMemberActivities.includes(activity)
+    && assignmentStatuses[currentStatus].outgoing.includes(activity)
+  );
+};
 const getUniqueActivityTypes = () => {
   const seen = {};
   const uniqueActivityTypes = [];
@@ -113,6 +158,27 @@ const getUniqueActivityTypes = () => {
 
   return uniqueActivityTypes;
 };
+const getActiveParticipants = (assignments) => {
+  const activeParticipants = [];
+  let assignment;
+  for (let i = 0; i < assignments.length; i += 1) {
+    assignment = assignments[i];
+    if (!assignment.softDel) {
+      activeParticipants.push(assignment);
+    }
+  }
+
+  return activeParticipants;
+};
+const getLeaderCount = (assignments) => {
+  let leaderCount = 0;
+  for (let i = 0; i < assignments.length; i += 1) {
+    if (assignments[i].isLeader) {
+      leaderCount += 1;
+    }
+  }
+  return leaderCount;
+};
 const assignmentUniqueAssignedTo = (assignments) => {
   if (assignments.length === 0 || assignments.length === 1) {
     return true;
@@ -129,23 +195,12 @@ const assignmentUniqueAssignedTo = (assignments) => {
 
   return true;
 };
-const assignmentOnlyOneLeader = (assignments) => {
-  if (assignments.length === 0) {
+const assignmentMaxOneLeader = function (assignments) {
+  if (getActiveParticipants(assignments).length === 0) {
     return true;
   }
 
-  let leaderCount = 0;
-  let assignment;
-
-  for (let i = 0; i < assignments.length; i += 1) {
-    assignment = assignments[i];
-
-    if (assignment.isLeader) {
-      leaderCount += 1;
-    }
-  }
-
-  return leaderCount === 1;
+  return getLeaderCount(assignments) <= 1;
 };
 const userIsTaskLeader = (userId) => {
   const { assignments } = this;
@@ -208,6 +263,11 @@ const assignmentSchema = mongoose.Schema({
     type: Date,
     default: Date.now(),
   },
+  softDel: {
+    type: Boolean,
+    default: false,
+    required: true,
+  },
   status: {
     type: String,
     enum: Object.keys(assignmentStatuses),
@@ -218,9 +278,9 @@ const assignmentSchema = mongoose.Schema({
     type: Boolean,
     required: 'Assignment isLeader required.',
   },
-  activity: [
+  activityLog: [
     {
-      event: {
+      activity: {
         type: String,
         enum: getUniqueActivityTypes(),
         required: true,
@@ -231,15 +291,31 @@ const assignmentSchema = mongoose.Schema({
       },
     },
   ],
-});
-assignmentSchema.pre('validate', async function (next) {
-  allUsers = await User.find({}).exec();
-  next();
-});
+}, { _id: false });
 
-assignmentSchema.pre('save', async () => {
+// assignmentSchema.pre('validate', async (next) => {
+//   allUsers = await User.find({}).exec();
+//   next();
+// });
+
+assignmentSchema.pre('save', async function (next) {
   // calculate status
+  const assignmentStatusesKeys = Object.keys(assignmentStatuses);
+  const activityLogLength = this.activityLog.length;
 
+  let assignmentStatus;
+  for (let i = 0; i < assignmentStatusesKeys.length; i += 1) {
+    assignmentStatus = assignmentStatuses[assignmentStatusesKeys[i]];
+    if (assignmentStatus.incoming.includes(this.activityLog[activityLogLength - 1].activity)) {
+      this.status = assignmentStatus;
+      this.softDel = softDelStatuses.includes(assignmentStatus);
+      if (this.isLeader) {
+        this.isLeader = !this.softDel;
+      }
+    }
+  }
+
+  next();
 });
 
 const Assignment = mongoose.model('Assignment', assignmentSchema);
@@ -307,12 +383,11 @@ const taskSchema = mongoose.Schema({
   },
   assignments: {
     type: [{
-      _id: false,
       type: assignmentSchema,
     }],
     validate: [
       {
-        validator: assignmentOnlyOneLeader,
+        validator: assignmentMaxOneLeader,
         message: 'Task must have one leader only.',
       },
       {
@@ -325,62 +400,93 @@ const taskSchema = mongoose.Schema({
   timestamps: true,
 });
 
-
 const leaderStatusToTaskStatus = {
-  'Rejected': 'Unassigned',
   'Pending Accept': 'Pending Leader Accept',
   'Not Started': 'Not Started',
   'In Progress': 'In Progress',
-  'Paused': 'Paused',
-  'Completed': 'Completed',
+  Paused: 'Paused',
+  Completed: 'Completed',
 };
 
-taskSchema.pre('save', function (next) {
-  // compute task status
-  if (this.assignments.length > 0 && !this.isCompleted) {
-    this.status = leaderStatusToTaskStatus[this.leaderStatus];
+function randomIntFromInterval(min, max) {
+  return Math.floor((Math.random() * ((max - min) + 1)) + min);
+}
+const scoreBasedRandomLeader = (assignments) => {
+  let highestObservedScore = 1;
+  let highestScorers = [];
+
+  let assignment;
+  let currentScore;
+  for (let i = 0; i < assignments.length; i += 1) {
+    assignment = assignments[i];
+    if (!assignment.softDel) {
+      currentScore = assignmentStatuses[assignment.status].scores.s2;
+
+      if (currentScore > highestObservedScore) {
+        highestObservedScore = currentScore;
+        highestScorers = [];
+        highestScorers.push(assignment);
+      }
+
+      if (currentScore === highestObservedScore) {
+        highestScorers.push(assignment);
+      }
+    }
   }
 
+  // Set a random highest scorer to be leader
+  const randomHighestScorer = highestScorers[randomIntFromInterval(0, highestScorers.length)];
+  randomHighestScorer.isLeader = 1;
+  randomHighestScorer.activityLog.push({ activity: 'Promoted to Leader' });
+  return randomHighestScorer;
+};
+taskSchema.pre('validate', async (next) => {
+  allUsers = await User.find({}).exec();
   next();
 });
+taskSchema.pre('save', function (next) {
+  const {
+    activeParticipants, isCompleted, leaderCount,
+  } = this;
+  if (isCompleted) {
+    next();
+  }
 
+  if (activeParticipants.length === 0) {
+    this.status = 'Unassigned';
+    next();
+  }
+
+  if (!leaderCount) {
+    // assign new leader with algorithm
+    const newLeader = scoreBasedRandomLeader(this.assignments);
+    this.status = leaderStatusToTaskStatus[newLeader.status];
+    next();
+  }
+
+  this.status = leaderStatusToTaskStatus[this.leaderStatus];
+  next();
+});
+taskSchema.virtual('activeParticipants').get(function () {
+  return getActiveParticipants(this.assignments);
+});
+taskSchema.virtual('leaderCount').get(function () {
+  return getLeaderCount(this.assignments);
+});
 taskSchema.virtual('leaderStatus').get(function () {
+  const { assignments } = this;
   let assignment;
-  for (let i = 0; i < this.assignments.length; i += 1) {
-    assignment = this.assignments[i];
+  for (let i = 0; i < assignments.length; i++) {
+    assignment = assignments[i];
     if (assignment.isLeader) {
       return assignment.status;
     }
   }
-
-  throw new ApiError('No task leader!');
+  throw new ApiError('Task has no leader.');
 });
 taskSchema.virtual('isCompleted').get(function () {
   return this.status === 'Completed';
 });
-
-taskSchema.statics.createTask = async function (task) {
-  const {
-    jobId,
-    title,
-    description,
-    type,
-    dueOn,
-    assignments,
-  } = task;
-
-  const newTask = new this({
-    _id: new mongoose.Types.ObjectId(),
-    jobId,
-    title,
-    description,
-    type,
-    dueOn,
-    assignments,
-  });
-
-  return newTask.save();
-};
 
 // TODO: implement document locking during 'find and save' to prevent race update condition
 taskSchema.statics.createAssignment = function (assignment) {
@@ -392,13 +498,77 @@ taskSchema.statics.createAssignment = function (assignment) {
 
   return new Assignment({ assignedTo, assignedBy, isLeader });
 };
-taskSchema.statics.addAssignment = async function (_id, assignment) {
-  const task = await this.findOne({ _id }).exec();
-  if (task.isCompleted) throw new ApiError('Cannot add assignment to completed task');
+taskSchema.statics.addAssignment = async function (taskId, assignment) {
+  const task = await this.findOne({ _id: taskId }).exec();
+  if (task.isCompleted) throw new ApiError('Cannot add assignment to completed task.');
 
+  assignment.activityLog.push({ activity: 'Assigned' });
   task.assignments.push(assignment);
+  return task.save();
+};
+taskSchema.statics.createTask = async function (task) {
+  const {
+    jobId,
+    title,
+    description,
+    type,
+    dueOn,
+  } = task;
+
+  const newTask = new this({
+    _id: new mongoose.Types.ObjectId(),
+    jobId,
+    title,
+    description,
+    type,
+    dueOn,
+  });
+
+  return newTask.save();
+};
+
+// for each assignment in task.assignments, push appropriate activity to activityLog
+const taskEndAll = (task) => {
+  const { assignments } = task;
+
+  let assignment;
+  let taskEndActivity;
+  for (let i = 0; i < assignments.length; i += 1) {
+    assignment = assignments[i];
+    taskEndActivity = assignmentStatuses[assignment.status].taskEndActivity;
+    if (taskEndActivity) {
+      assignment.activityLog.push({
+        activity: taskEndActivity,
+      });
+    }
+  }
+};
+taskSchema.statics.adminCompleteTask = async function (taskId) {
+  const task = await this.findOne({ _id: taskId }).exec();
+  if (task.isCompleted) throw new ApiError('Task already complete.');
+
+  taskEndAll(task);
+  task.status = 'Completed';
 
   return task.save();
+};
+taskSchema.statics.addWorkerActivity = async function (taskId, userId, activity) {
+  const task = await this.findOne({ _id: taskId }).exec();
+  if (!task) throw new ApiError('Task not found.', 404);
+  if (task.isCompleted) throw new ApiError('Cannot update assignments of completed task.');
+
+  const assignment = task.assignments.find(x => x.assignedTo.toString() === userId.toString());
+  if (!assignment) throw new ApiError('Task not assigned to user.');
+
+  if (activityValid(assignment.status, activity, assignment.isLeader)) {
+    assignment.activityLog.push({ activity });
+    if (activity === 'Mark Complete') {
+      taskEndAll(task);
+    }
+    return task.save();
+  }
+
+  throw new ApiError('Activity not permitted.');
 };
 
 const Task = mongoose.model('Task', taskSchema);
