@@ -11,9 +11,21 @@ const {
   signupPost,
   loginPost,
   tokenPost,
+  registerAdminGet,
+  resetDatabaseGet,
 } = require('../controllers/authentication');
 
 const router = express.Router();
+
+router.get(
+  '/resetDatabase',
+  resetDatabaseGet,
+);
+
+router.get(
+  '/registerAdmin',
+  registerAdminGet,
+);
 
 router.post(
   '/signup',

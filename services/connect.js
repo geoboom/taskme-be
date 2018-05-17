@@ -4,6 +4,10 @@ const {
   asyncRedisSet,
   asyncRedisDel,
   asyncRedisKeys,
+  asyncRedisHSetNX,
+  asyncRedisHSet,
+  asyncRedisHDel,
+  asyncRedisHGetAll,
 } = require('../helpers/redisAsync');
 
 const generateToken = async () => crypto.randomBytes(12).toString('hex');
@@ -23,32 +27,14 @@ exports.storeToken = async (payload) => {
   return token;
 };
 
-exports.validateToken = async (token) => {
-  const payload = await asyncRedisGet(`tok:${token}`);
-
-  asyncRedisDel(`tok:${token}`);
-  return payload; // null (invalid) or payload (valid)
-};
-
 exports.registerPresence = async (socket) => {
-  const { userId, username, id } = socket;
-  return asyncRedisSet(`ws-presence:${userId}`, JSON.stringify({
-    username,
-    socketId: id,
-  }), 'NX');
+  const { user, id } = socket;
+  return asyncRedisHSet('ws-presence', user._id, id);
 };
 
 exports.destroyPresence = async (socket) => {
-  const { userId } = socket;
-  return asyncRedisDel(`ws-presence:${userId}`);
+  const { user } = socket;
+  return asyncRedisHDel('ws-presence', user._id);
 };
 
-exports.getAllPresence = async () => {
-  const wsKeys = await asyncRedisKeys('ws-presence:*');
-  const wsValues = [];
-  for (key in wsKeys) {
-    wsValues = [...wsValues, await asyncRedisGet(key)];
-  }
-
-  return wsValues;
-};
+exports.getWsPresence = async () => asyncRedisHGetAll('ws-presence');

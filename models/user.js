@@ -3,7 +3,7 @@ const bcrypt = require('bcrypt');
 const ApiError = require('../helpers/apiError');
 
 const SALT_WORK_FACTOR = 10;
-const MAX_LOGIN_ATTEMPS = 5;
+const MAX_LOGIN_ATTEMPTS = 5;
 const LOCK_TIME = 2 * 60 * 60 * 1000;
 
 const userSchema = mongoose.Schema({
@@ -94,7 +94,7 @@ userSchema.methods.incLoginAttempts = async function () {
   }
 
   const updates = { $inc: { loginAttempts: 1 } };
-  if (this.loginAttempts + 1 >= MAX_LOGIN_ATTEMPS && !this.isLocked) {
+  if (this.loginAttempts + 1 >= MAX_LOGIN_ATTEMPTS && !this.isLocked) {
     updates.$set = { lockUntil: Date.now() + LOCK_TIME };
   }
 

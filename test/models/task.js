@@ -3,7 +3,7 @@ require('dotenv').config();
 const { expect } = require('chai');
 const mongoose = require('mongoose');
 
-const { Task, Assignment } = require('../../models/task');
+const Task = require('../../models/task');
 const Job = require('../../models/job');
 const JobCategory = require('../../models/jobCategory');
 const JobComponent = require('../../models/jobComponent');

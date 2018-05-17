@@ -571,8 +571,4 @@ taskSchema.statics.addWorkerActivity = async function (taskId, userId, activity)
   throw new ApiError('Activity not permitted.');
 };
 
-const Task = mongoose.model('Task', taskSchema);
-module.exports = {
-  Task,
-  Assignment,
-};
+module.exports = mongoose.model('Task', taskSchema);
