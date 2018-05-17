@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const dbConn = () => {
   mongoose.Promise = global.Promise;
   mongoose.connect(
-    `mongodb://geoboom:${process.env.DB_PASS}@ds029595.mlab.com:29595/taskme-db-${process.env.NODE_ENV}`,
+    `mongodb://geoboom:${process.env.DB_PASS}@ds029595.mlab.com:29595/taskme-db-test`,
     (err) => {
       if (err) {
         console.log('env =', process.env.NODE_ENV);
