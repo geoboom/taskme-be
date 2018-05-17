@@ -17,6 +17,7 @@ app.use(bodyParser.json());
 app.use(passport.initialize());
 
 app.use('/api', router);
+app.get('/', (req, res, next) => res.send('taskme api'));
 
 errorHandler(app);
 
