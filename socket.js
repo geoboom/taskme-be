@@ -35,7 +35,7 @@ const init = (server) => {
         socket.emit('task.all', tasks);
       }
       if (socket.user.group === 'worker') {
-        const tasks = await Task.find({ 'task.assignments.assignedTo': socket.user._id }).exec();
+        const tasks = await Task.find({ 'assignments.assignedTo': socket.user._id }).exec();
         socket.emit('user.task.all', tasks);
       }
     } catch (e) {
