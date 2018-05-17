@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d1b0d2dc-9d2f-449e-8de5-26e0d522165d" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app.js" afterPath="$PROJECT_DIR$/app.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -66,7 +66,7 @@
                   <entry file="file://$PROJECT_DIR$/package.json">
                     <provider selected="true" editor-type-id="text-editor">
                       <state relative-caret-position="175">
-                        <caret line="5" column="33" lean-forward="false" selection-start-line="5" selection-start-column="33" selection-end-line="5" selection-end-column="33" />
+                        <caret line="5" column="14" lean-forward="false" selection-start-line="5" selection-start-column="14" selection-end-line="5" selection-end-column="14" />
                         <folding />
                       </state>
                     </provider>
@@ -114,20 +114,30 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="app.js" pinned="false" current-in-tab="true">
+          <file leaf-file-name="app.js" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/app.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="665">
-                  <caret line="19" column="52" lean-forward="false" selection-start-line="19" selection-start-column="52" selection-end-line="19" selection-end-column="52" />
+                <state relative-caret-position="140">
+                  <caret line="4" column="0" lean-forward="true" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
                   <folding />
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="socket.js" pinned="false" current-in-tab="false">
+          <file leaf-file-name="db.js" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/models/db.js">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="175">
+                  <caret line="5" column="83" lean-forward="false" selection-start-line="5" selection-start-column="83" selection-end-line="5" selection-end-column="83" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="socket.js" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/socket.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="3080">
+                <state relative-caret-position="280">
                   <caret line="88" column="23" lean-forward="false" selection-start-line="88" selection-start-column="23" selection-end-line="88" selection-end-column="23" />
                   <folding />
                 </state>
@@ -178,7 +188,7 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="task.js" pinned="false" current-in-tab="false">
+          <file leaf-file-name="task.js" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/models/task.js">
               <provider selected="true" editor-type-id="text-editor">
                 <state relative-caret-position="404">
@@ -205,16 +215,6 @@
                     <element signature="e#12473#12678#0" expanded="false" />
                     <element signature="e#12761#13407#0" expanded="false" />
                   </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name=".env" pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/.env">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="35">
-                  <caret line="1" column="24" lean-forward="false" selection-start-line="1" selection-start-column="24" selection-end-line="1" selection-end-column="24" />
-                  <folding />
                 </state>
               </provider>
             </entry>
@@ -255,7 +255,6 @@
         <option value="$PROJECT_DIR$/test/middleware/authentication.js" />
         <option value="$PROJECT_DIR$/.eslintrc" />
         <option value="$PROJECT_DIR$/bin/www" />
-        <option value="$PROJECT_DIR$/models/db.js" />
         <option value="$PROJECT_DIR$/test/services/authentication.js" />
         <option value="$PROJECT_DIR$/helpers/redisClient.js" />
         <option value="$PROJECT_DIR$/helpers/redisAsync.js" />
@@ -276,7 +275,6 @@
         <option value="$PROJECT_DIR$/test/models/job.js" />
         <option value="$PROJECT_DIR$/routes/index.js" />
         <option value="$PROJECT_DIR$/models/user.js" />
-        <option value="$PROJECT_DIR$/package.json" />
         <option value="$PROJECT_DIR$/routes/auth.js" />
         <option value="$PROJECT_DIR$/test/models/task.js" />
         <option value="$PROJECT_DIR$/models/task.js" />
@@ -285,6 +283,8 @@
         <option value="$PROJECT_DIR$/middleware/socket/authentication.js" />
         <option value="$PROJECT_DIR$/socket.js" />
         <option value="$PROJECT_DIR$/app.js" />
+        <option value="$PROJECT_DIR$/models/db.js" />
+        <option value="$PROJECT_DIR$/package.json" />
       </list>
     </option>
   </component>
@@ -397,7 +397,7 @@
     <property name="node.js.detected.package.jscs" value="true" />
     <property name="node.js.selected.package.jscs" value="" />
     <property name="restartRequiresConfirmation" value="false" />
-    <property name="SearchEverywhereHistoryKey" value="task&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/models/task.js&#10;jobcateg&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/models/jobCategory.js&#10;jobcate&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/test/models/jobCategory.js&#10;job&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/models/job.js&#10;authentication&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/controllers/authentication.js&#10;tokenpost&#9;null&#9;null&#10;routes/auth&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/routes/auth.js&#10;redisAsyn&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/helpers/redisAsync.js&#10;authenti&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/services/authentication.js&#10;config.js&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/config.js&#10;routes/a&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/routes/auth.js&#10;models/task&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/models/task.js&#10;controllers/authen&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/controllers/authentication.js&#10;test/&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/test&#10;services/authe&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/services/authentication.js&#10;controllers/auth&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/controllers/authentication.js&#10;authentica&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/middleware/socket/authentication.js&#10;err&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/middleware/errorHandler.js&#10;models/user&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/models/user.js&#10;pack&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/package.json&#10;package.json&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/package.json&#10;package&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/package.json&#10;dbhelper&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/test/models/dbHelper.js&#10;services/&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/test/services&#10;test/models/jobCom&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/test/models/jobComponent.js&#10;test/auth&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/test/services/authenticationMongo.js&#10;packa&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/package.json&#10;test/models/us&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/test/models/user.js&#10;test&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/routes/testAuth.js&#10;services/authen&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/services/authentication.js&#10;user&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/test/models/user.js&#10;config&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/config.js&#10;authenticationMongo&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/test/services/authenticationMongo.js&#10;async&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/helpers/redisAsync.js&#10;auth&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/routes/auth.js&#10;redis&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/helpers/redisClient.js&#10;db&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/models/db.js&#10;app&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/app.js&#10;redisA&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/helpers/redisAsync.js&#10;eslintrc&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/.eslintrc&#10;test.js&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/test/test.js&#10;app.js&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/app.js&#10;services/authentication&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/services/authentication.js&#10;services/connect&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/services/connect.js&#10;socket.js&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/socket.js&#10;services/co&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/services/connect.js&#10;routes/connect&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/routes/connect.js&#10;connect&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/controllers/connect.js&#10;connectRouter&#9;null&#9;null&#10;routes/index&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/routes/index.js" />
+    <property name="SearchEverywhereHistoryKey" value="package&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/package.json&#10;db&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/models/db.js&#10;task&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/models/task.js&#10;jobcateg&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/models/jobCategory.js&#10;jobcate&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/test/models/jobCategory.js&#10;job&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/models/job.js&#10;authentication&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/controllers/authentication.js&#10;tokenpost&#9;null&#9;null&#10;routes/auth&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/routes/auth.js&#10;redisAsyn&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/helpers/redisAsync.js&#10;authenti&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/services/authentication.js&#10;config.js&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/config.js&#10;routes/a&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/routes/auth.js&#10;models/task&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/models/task.js&#10;controllers/authen&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/controllers/authentication.js&#10;test/&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/test&#10;services/authe&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/services/authentication.js&#10;controllers/auth&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/controllers/authentication.js&#10;authentica&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/middleware/socket/authentication.js&#10;err&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/middleware/errorHandler.js&#10;models/user&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/models/user.js&#10;pack&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/package.json&#10;package.json&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/package.json&#10;dbhelper&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/test/models/dbHelper.js&#10;services/&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/test/services&#10;test/models/jobCom&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/test/models/jobComponent.js&#10;test/auth&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/test/services/authenticationMongo.js&#10;packa&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/package.json&#10;test/models/us&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/test/models/user.js&#10;test&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/routes/testAuth.js&#10;services/authen&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/services/authentication.js&#10;user&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/test/models/user.js&#10;config&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/config.js&#10;authenticationMongo&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/test/services/authenticationMongo.js&#10;async&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/helpers/redisAsync.js&#10;auth&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/routes/auth.js&#10;redis&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/helpers/redisClient.js&#10;app&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/app.js&#10;redisA&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/helpers/redisAsync.js&#10;eslintrc&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/.eslintrc&#10;test.js&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/test/test.js&#10;app.js&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/app.js&#10;services/authentication&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/services/authentication.js&#10;services/connect&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/services/connect.js&#10;socket.js&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/socket.js&#10;services/co&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/services/connect.js&#10;routes/connect&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/routes/connect.js&#10;connect&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/controllers/connect.js&#10;connectRouter&#9;null&#9;null&#10;routes/index&#9;FILE&#9;file://D:/Coding/Web/NS/taskme-be/routes/index.js" />
     <property name="javascript.nodejs.core.library.configured.version" value="10.0.0" />
   </component>
   <component name="RecentsManager">
@@ -557,12 +557,12 @@
       <workItem from="1526038066971" duration="163515000" />
       <workItem from="1526487419636" duration="248000" />
       <workItem from="1526487713615" duration="2144000" />
-      <workItem from="1526528710693" duration="23494000" />
+      <workItem from="1526528710693" duration="25280000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="281737000" />
+    <option name="totallyTimeSpent" value="283523000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-2568" y="131" width="2576" height="1416" extended-state="6" />
@@ -722,14 +722,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/package.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="175">
-          <caret line="5" column="33" lean-forward="false" selection-start-line="5" selection-start-column="33" selection-end-line="5" selection-end-column="33" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/routes/index.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="210">
@@ -762,14 +754,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="490">
           <caret line="14" column="51" lean-forward="false" selection-start-line="14" selection-start-column="51" selection-end-line="14" selection-end-column="51" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/models/db.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="525">
-          <caret line="15" column="0" lean-forward="true" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -904,6 +888,38 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/helpers/redisAsync.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="910">
+          <caret line="26" column="28" lean-forward="false" selection-start-line="26" selection-start-column="28" selection-end-line="26" selection-end-column="28" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/helpers/redisClient.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="70">
+          <caret line="2" column="51" lean-forward="false" selection-start-line="2" selection-start-column="51" selection-end-line="2" selection-end-column="51" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/bin/www">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="495">
+          <caret line="86" column="0" lean-forward="true" selection-start-line="86" selection-start-column="0" selection-end-line="86" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.env">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="35">
+          <caret line="1" column="24" lean-forward="false" selection-start-line="1" selection-start-column="24" selection-end-line="1" selection-end-column="24" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/models/task.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="404">
@@ -933,50 +949,34 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/.env">
+    <entry file="file://$PROJECT_DIR$/app.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="35">
-          <caret line="1" column="24" lean-forward="false" selection-start-line="1" selection-start-column="24" selection-end-line="1" selection-end-column="24" />
+        <state relative-caret-position="140">
+          <caret line="4" column="0" lean-forward="true" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/helpers/redisAsync.js">
+    <entry file="file://$PROJECT_DIR$/package.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="910">
-          <caret line="26" column="28" lean-forward="false" selection-start-line="26" selection-start-column="28" selection-end-line="26" selection-end-column="28" />
+        <state relative-caret-position="175">
+          <caret line="5" column="14" lean-forward="false" selection-start-line="5" selection-start-column="14" selection-end-line="5" selection-end-column="14" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/helpers/redisClient.js">
+    <entry file="file://$PROJECT_DIR$/models/db.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="70">
-          <caret line="2" column="51" lean-forward="false" selection-start-line="2" selection-start-column="51" selection-end-line="2" selection-end-column="51" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/bin/www">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="495">
-          <caret line="86" column="0" lean-forward="true" selection-start-line="86" selection-start-column="0" selection-end-line="86" selection-end-column="0" />
+        <state relative-caret-position="175">
+          <caret line="5" column="83" lean-forward="false" selection-start-line="5" selection-start-column="83" selection-end-line="5" selection-end-column="83" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/socket.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3080">
+        <state relative-caret-position="280">
           <caret line="88" column="23" lean-forward="false" selection-start-line="88" selection-start-column="23" selection-end-line="88" selection-end-column="23" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="665">
-          <caret line="19" column="52" lean-forward="false" selection-start-line="19" selection-start-column="52" selection-end-line="19" selection-end-column="52" />
           <folding />
         </state>
       </provider>
