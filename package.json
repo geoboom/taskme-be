@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-    "test": "set NODE_ENV=test&& mocha ./test/models/taskasdasd.js --recursive --timeout 10000 --exit"
+    "test": "set NODE_ENV=test&& mocha ./test/models/task.js --recursive --timeout 10000 --exit"
   },
   "dependencies": {
     "bcrypt": "^2.0.1",
