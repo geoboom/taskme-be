@@ -3,30 +3,8 @@ const bcrypt = require('bcrypt');
 const ApiError = require('../helpers/apiError');
 
 const SALT_WORK_FACTOR = 10;
-const MAX_LOGIN_ATTEMPS = 5;
+const MAX_LOGIN_ATTEMPTS = 5;
 const LOCK_TIME = 2 * 60 * 60 * 1000;
-
-// const userTaskSchema = mongoose.Schema({
-// {
-//   taskId: {
-//
-//   },
-//   status: {
-//
-//   },
-//   isLeader: {
-//
-//   },
-//   activity: [
-//     activityType: {
-//
-// },
-//   timestamp: {
-//
-//   },
-// ],
-// }
-// });
 
 const userSchema = mongoose.Schema({
   _id: mongoose.Schema.Types.ObjectId,
@@ -54,8 +32,7 @@ const userSchema = mongoose.Schema({
     default: 'worker',
     required: 'Group is required.',
   },
-  // taskList: [userTaskSchema],
-  lastLoginTimestamp: {
+  lastSuccessfulLoginTimestamp: {
     type: Date,
   },
   loginAttempts: {
@@ -98,7 +75,8 @@ userSchema.pre('save', function (next) {
   });
 });
 
-const reasons = userSchema.statics.failedLogin = {
+const reasons = userSchema.statics.apiErrors = {
+  USERNAME_EXISTS: new ApiError('Username exists.', 409),
   USERNAME_OR_PASSWORD_INCORRECT: new ApiError('Wrong username or password.', 401),
   MAX_ATTEMPTS: new ApiError('Account temporarily locked.', 403),
 };
@@ -116,29 +94,71 @@ userSchema.methods.incLoginAttempts = async function () {
   }
 
   const updates = { $inc: { loginAttempts: 1 } };
-  if (this.loginAttempts + 1 >= MAX_LOGIN_ATTEMPS && !this.isLocked) {
+  if (this.loginAttempts + 1 >= MAX_LOGIN_ATTEMPTS && !this.isLocked) {
     updates.$set = { lockUntil: Date.now() + LOCK_TIME };
   }
 
   return this.update(updates);
 };
 
+userSchema.methods.updateLastLogin = async function (newDate) {
+  return this.update({
+    $set: { lastSuccessfulLoginTimestamp: newDate },
+  });
+};
+
 userSchema.methods.comparePassword = async function (candidatePassword) {
   return bcrypt.compare(candidatePassword, this.password);
+};
+
+userSchema.statics.signup = async function(username, password) {
+  const user = await this.findOne({ username }).exec();
+  if (user) {
+    throw reasons.USERNAME_EXISTS;
+  }
+
+  const newUser = new this({
+    _id: new mongoose.Types.ObjectId(),
+    username,
+    password,
+  });
+
+  return newUser.save();
+};
+
+userSchema.statics.createAdmin = async function (username, password) {
+  const user = await this.findOne({ username }).exec();
+  if (user) {
+    throw reasons.USERNAME_EXISTS;
+  }
+
+  const newUser = new this({
+    _id: new mongoose.Types.ObjectId(),
+    username,
+    password,
+    group: 'admin',
+  });
+
+  return newUser.save();
 };
 
 userSchema.statics.getAuthenticated = async function (username, password) {
   const user = await this.findOne({ username }).exec();
   if (!user) throw reasons.USERNAME_OR_PASSWORD_INCORRECT;
   if (user.isLocked) {
-    await user.incLoginAttempts;
+    await user.incLoginAttempts();
     throw reasons.MAX_ATTEMPTS;
   }
 
   // user is not locked
   const match = await user.comparePassword(password);
   if (match) {
-    if (!user.loginAttempts && !user.lockUntil) return user;
+    user.lastSuccessfulLoginTimestamp = new Date();
+
+    if (!user.loginAttempts && !user.lockUntil) {
+      await user.save();
+      return user;
+    }
 
     const updates = {
       $set: { loginAttempts: 0 },
@@ -146,6 +166,7 @@ userSchema.statics.getAuthenticated = async function (username, password) {
     };
 
     await user.update(updates);
+    await user.save();
     return user;
   }
 

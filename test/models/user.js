@@ -79,12 +79,15 @@ describe('/models/user.js', () => {
   });
 
   describe('userSchema.statics.getAuthenticated', () => {
-    it('should return user object on successful authentication', async () => {
+    it('should return user object with correct lastSuccessfulLoginTimestamp on successful authentication', async () => {
       try {
+        const dateBefore = new Date();
         const user = await User.getAuthenticated(CORRECT_USERNAME, CORRECT_PASSWORD);
         expect(user).to.include({ username: GOOD_USERNAME });
         expect(user).to.have.property('password');
         expect(user).to.have.property('_id');
+        expect(user).to.have.property('lastSuccessfulLoginTimestamp');
+        expect(user.lastSuccessfulLoginTimestamp).to.be.greaterThan(dateBefore);
       } catch (err) {
         console.log('ERROR:', err);
         throw new Error(err);
@@ -146,15 +149,26 @@ describe('/models/user.js', () => {
           throw new Error(err);
         }
       });
+
+      it('loginAttempts should be 0 on successful authentication after unlock', async () => {
+        try {
+          const user = await User.getAuthenticated(CORRECT_USERNAME, CORRECT_PASSWORD);
+          expect(user).to.include({ username: GOOD_USERNAME });
+          expect(user).to.have.property('password');
+          expect(user).to.have.property('_id');
+          expect(user).to.have.property('lastSuccessfulLoginTimestamp');
+          expect((await User.findOne({ _id: user._id }).exec()).loginAttempts).to.equal(0);
+        } catch (err) {
+          console.log('ERROR:', err);
+          throw new Error(err);
+        }
+      });
     });
   });
 
-  after((done) => {
+  after(async () => {
+    await User.remove({}).exec();
     const db = mongoose.connection;
-    db.close();
-    db.once('close', () => {
-      console.log('db connection closed');
-      done();
-    });
+    await db.close();
   });
 });

@@ -1,27 +1,19 @@
-const {
-  validateToken,
-  registerPresence,
-} = require('../../services/connect');
+const jwt = require('jsonwebtoken');
 
-exports.authenticationMiddleware = async (socket, next) => {
+const { registerPresence } = require('../../services/socket');
+
+module.exports = async (socket, next) => {
   const { tok } = socket.handshake.query;
 
   try {
-    const payload = await validateToken(tok);
-    if (!payload) {
-      next(new Error('session.authenticationFailed'));
-      return;
-    }
+    socket.user = await jwt.verify(tok, process.env.JWT_SECRET);
 
-    const { userId } = JSON.parse(payload);
-    socket.userId = userId;
-    if (!await registerPresence(socket)) {
-      next(new Error('session.alreadyActive'));
-      return;
+    const response = await registerPresence(socket);
+    if (!response) {
+      return next(new Error('Session already active.'));
     }
-
-    next();
+    return next();
   } catch (err) {
-    next(err);
+    return next(new Error('Authentication error.'));
   }
 };
