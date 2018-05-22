@@ -33,7 +33,16 @@ module.exports = function (taskSchemaParam) {
     return this.status === 'Completed';
   });
 
-  taskSchema.statics.createTask = async function (task) {
+  taskSchema.statics.getAllTasks = async function () {
+    const tasks = await this.find({ softDel: false }).exec();
+
+    return tasks;
+  };
+  taskSchema.statics.getAssignedTasks = async function (userId) {
+    const tasks = await this.find({ 'assignments.assignedTo': userId }).exec();
+    return tasks;
+  };
+  taskSchema.statics.addTask = async function (task) {
     const {
       jobId,
       title,
@@ -53,7 +62,39 @@ module.exports = function (taskSchemaParam) {
 
     return newTask.save();
   };
-  // TODO: implement document locking during 'find and save' to prevent race update condition
+  taskSchema.statics.editTask = async function (newTask) {
+    const {
+      _id,
+      title,
+      description,
+    } = newTask;
+    const task = await this.findOne({ _id }).exec();
+    if (!task) throw new ApiError('Task not found.', 404);
+
+    task.title = title;
+    task.description = description;
+
+    return task.save();
+  };
+  // TODO: implement document locking during 'find and save' to prevent race
+  // update condition
+  taskSchema.statics.removeTask = async function (_id) {
+    const task = this.findOne({ _id }).exec();
+
+    task.softDel = true;
+    return task.save();
+  };
+  taskSchema.statics.adminCompleteTask = async function (taskId, userId) {
+    const task = await this.findOne({ _id: taskId }).exec();
+    if (!task) throw new ApiError('Task not found.', 404);
+    if (task.isCompleted) throw new ApiError('Task already complete.');
+
+    taskEndAll(task);
+    task.status = 'Completed';
+    task.completedBy = userId;
+
+    return task.save();
+  };
   taskSchema.statics.addAssignment = async function (taskId, assignment) {
     const task = await this.findOne({ _id: taskId }).exec();
     if (!task) throw new ApiError('Task not found.', 404);
@@ -70,17 +111,6 @@ module.exports = function (taskSchemaParam) {
 
     assignment.activityLog.push({ activity: 'Assigned' });
     task.assignments.push(assignment);
-    return task.save();
-  };
-  taskSchema.statics.adminCompleteTask = async function (taskId, userId) {
-    const task = await this.findOne({ _id: taskId }).exec();
-    if (!task) throw new ApiError('Task not found.', 404);
-    if (task.isCompleted) throw new ApiError('Task already complete.');
-
-    taskEndAll(task);
-    task.status = 'Completed';
-    task.completedBy = userId;
-
     return task.save();
   };
   taskSchema.statics.removeAssignment = async function (taskId, userId) {

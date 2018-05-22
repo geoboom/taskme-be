@@ -7,7 +7,6 @@ const {
   softDelStatuses,
 } = require('./helpers/task/assignmentStatuses');
 const {
-  getUniqueActivityTypes,
   assignmentUniqueAssignedTo,
   assignmentMaxOneLeader,
   userIsTaskLeader,
@@ -102,6 +101,11 @@ const DESC_MAXLEN = 200;
 
 const taskSchema = mongoose.Schema({
   _id: mongoose.Schema.Types.ObjectId,
+  softDel: {
+    type: Boolean,
+    default: false,
+    required: true,
+  },
   jobId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Job',

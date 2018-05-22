@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 
+const ApiError = require('../helpers/apiError');
 const JobCategory = require('./jobCategory');
 const JobComponent = require('./jobComponent');
 
@@ -14,6 +15,7 @@ const DESC_MAXLEN = 200;
 
 const jobSchema = mongoose.Schema({
   _id: mongoose.Schema.Types.ObjectId,
+  // TODO: add created by
   title: {
     type: String,
     trim: true,
@@ -73,8 +75,19 @@ jobSchema.pre('validate', async (next) => {
 
   next();
 });
+jobSchema.statics.getAllJobs = async function () {
+  const jobs = await this.findOne({}).exec();
+  return jobs;
+};
 
-jobSchema.statics.createJob = async function (title, description, category, component) {
+jobSchema.statics.addJob = async function (newJob) {
+  const {
+    title,
+    description,
+    category,
+    component,
+  } = newJob;
+
   const job = new this({
     _id: new mongoose.Types.ObjectId(),
     title,
@@ -84,6 +97,32 @@ jobSchema.statics.createJob = async function (title, description, category, comp
   });
 
   return job.save();
+};
+
+jobSchema.statics.editJob = async function (newJob) {
+  const {
+    _id,
+    title,
+    description,
+    category,
+    component,
+  } = newJob;
+  const job = await this.findOne({ _id }).exec();
+  if (!job) throw new ApiError('Job not found.', 404);
+
+  job.title = title;
+  job.description = description;
+  job.category = category;
+  job.component = component;
+
+  return job.save();
+};
+
+// TODO: soft deleted associated tasks
+jobSchema.statics.removeJob = async function (_id) {
+  const removedJob = await this.deleteOne({ _id }).exec();
+
+  return removedJob;
 };
 
 module.exports = mongoose.model('Job', jobSchema);

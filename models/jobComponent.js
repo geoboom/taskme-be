@@ -20,7 +20,13 @@ const reasons = jobComponentSchema.statics.apiErrors = {
   COMPONENT_EXISTS: new ApiError('Component exists.', 409),
 };
 
-jobComponentSchema.statics.createComponent = async function (component) {
+jobComponentSchema.statics.getAllComponents = async function () {
+  const components = await this.find({}).exec();
+
+  return components;
+};
+
+jobComponentSchema.statics.addComponent = async function (component) {
   const duplicateComponent = await this.findOne({ component }).exec();
   if (duplicateComponent) {
     throw reasons.COMPONENT_EXISTS;
@@ -31,6 +37,12 @@ jobComponentSchema.statics.createComponent = async function (component) {
   });
 
   return jobComponent.save();
+};
+
+jobComponentSchema.statics.removeComponent = async function(_id) {
+  const removedComponent = this.deleteOne({ _id }).exec();
+
+  return removedComponent;
 };
 
 module.exports = mongoose.model('JobComponent', jobComponentSchema);

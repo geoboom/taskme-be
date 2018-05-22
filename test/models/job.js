@@ -23,8 +23,8 @@ describe('/models/job.js', () => {
       Job.remove({}).exec(),
     ]);
     await Promise.all([
-      JobComponent.createComponent(TEST_COMPONENT),
-      JobCategory.createCategory(TEST_CATEGORY),
+      JobComponent.addComponent(TEST_COMPONENT),
+      JobCategory.addCategory(TEST_CATEGORY),
     ]);
   });
 
@@ -40,7 +40,7 @@ describe('/models/job.js', () => {
 
   it('should error if job title is blank', async () => {
     try {
-      await Job.createJob('', GOOD_DESC, CORRECT_CATEGORY, CORRECT_COMPONENT);
+      await Job.addJob({ title: '', description: GOOD_DESC, category: CORRECT_CATEGORY, component: CORRECT_COMPONENT });
     } catch (err) {
       expect(err.errors.title.message).to.equal('Job title required.');
     }
@@ -48,7 +48,7 @@ describe('/models/job.js', () => {
 
   it('should error if job title is too long', async () => {
     try {
-      await Job.createJob(BAD_TITLE, GOOD_DESC, CORRECT_CATEGORY, CORRECT_COMPONENT);
+      await Job.addJob({ title: BAD_TITLE, description: GOOD_DESC, category: CORRECT_CATEGORY, component: CORRECT_COMPONENT });
     } catch (err) {
       expect(err.errors.title.message).to.equal('Job title cannot have more than 80 characters.');
     }
@@ -56,7 +56,7 @@ describe('/models/job.js', () => {
 
   it('should error if job desc is too long', async () => {
     try {
-      await Job.createJob(GOOD_TITLE, BAD_DESC, CORRECT_CATEGORY, CORRECT_COMPONENT);
+      await Job.addJob({ title: GOOD_TITLE, description: BAD_DESC, category: CORRECT_CATEGORY, component: CORRECT_COMPONENT });
     } catch (err) {
       expect(err.errors.description.message).to.equal('Job description cannot have more than 200 characters.');
     }
@@ -64,7 +64,7 @@ describe('/models/job.js', () => {
 
   it('should error if job category not found', async () => {
     try {
-      const job = await Job.createJob(GOOD_TITLE, GOOD_DESC, WRONG_CATEGORY, CORRECT_COMPONENT);
+      const job = await Job.addJob({ title: GOOD_TITLE, description: GOOD_DESC, category: WRONG_CATEGORY, component: CORRECT_COMPONENT });
       console.log(job);
     } catch (err) {
       expect(err.errors.category.message).to.equal('Category does not exist.');
@@ -73,7 +73,7 @@ describe('/models/job.js', () => {
 
   it('should error if job component not found', async () => {
     try {
-      const job = await Job.createJob(GOOD_TITLE, GOOD_DESC, CORRECT_CATEGORY, WRONG_COMPONENT);
+      const job = await Job.addJob({ title: GOOD_TITLE, description: GOOD_DESC, category: CORRECT_CATEGORY, component: WRONG_COMPONENT });
       console.log(job);
     } catch (err) {
       expect(err.errors.component.message).to.equal('Component does not exist.');
@@ -82,7 +82,7 @@ describe('/models/job.js', () => {
 
   it('should create and return job object successfully if all fields are valid', async () => {
     try {
-      const job = await Job.createJob(GOOD_TITLE, GOOD_DESC, CORRECT_CATEGORY, CORRECT_COMPONENT);
+      const job = await Job.addJob({ title: GOOD_TITLE, description: GOOD_DESC, category: CORRECT_CATEGORY, component: CORRECT_COMPONENT });
       expect(job.title).to.equal(GOOD_TITLE);
       expect(job.description).to.equal(GOOD_DESC);
       expect(job.category).to.equal(CORRECT_CATEGORY);
@@ -95,7 +95,7 @@ describe('/models/job.js', () => {
 
   it('should create and return job object successfully if all fields are valid with blank desc', async () => {
     try {
-      const job = await Job.createJob(GOOD_TITLE, '', CORRECT_CATEGORY, CORRECT_COMPONENT);
+      const job = await Job.addJob({ title: GOOD_TITLE, description: '', category: CORRECT_CATEGORY, component: CORRECT_COMPONENT });
       expect(job.title).to.equal(GOOD_TITLE);
       expect(job.description).to.equal('');
       expect(job.category).to.equal(CORRECT_CATEGORY);
@@ -108,7 +108,7 @@ describe('/models/job.js', () => {
 
   it('should create and return job object successfully if all fields are valid with undefined desc', async () => {
     try {
-      const job = await Job.createJob(GOOD_TITLE, undefined, CORRECT_CATEGORY, CORRECT_COMPONENT);
+      const job = await Job.addJob({ title: GOOD_TITLE, description: undefined, category: CORRECT_CATEGORY, component: CORRECT_COMPONENT });
       expect(job.title).to.equal(GOOD_TITLE);
       expect(job.description).to.not.exist;
       expect(job.category).to.equal(CORRECT_CATEGORY);
@@ -116,6 +116,23 @@ describe('/models/job.js', () => {
     } catch (err) {
       console.log(err);
       throw err;
+    }
+  });
+
+  it('should return saved job object with overwritten fields', async () => {
+    try {
+      const job = await Job.findOne({ title: GOOD_TITLE }).exec();
+      job.title = 'NEW TITLEZZZ';
+      job.description = 'NEW DESCRIPTIONZZ';
+      const newJob = await Job.editJob(job);
+
+      expect(newJob.title).to.equal('NEW TITLEZZZ');
+      expect(newJob.description).to.equal('NEW DESCRIPTIONZZ');
+      expect(newJob.category).to.equal(CORRECT_CATEGORY);
+      expect(newJob.component).to.equal(CORRECT_COMPONENT);
+    } catch (e) {
+      console.log(e);
+      throw e;
     }
   });
 

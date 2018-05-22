@@ -1,25 +1,19 @@
 const jwt = require('jsonwebtoken');
 
-const {
-  registerPresence,
-} = require('../../services/connect');
+const { registerPresence } = require('../../services/socket');
 
-exports.authenticationMiddleware = async (socket, next) => {
+module.exports = async (socket, next) => {
   const { tok } = socket.handshake.query;
 
   try {
-    const payload = await jwt.verify(tok, process.env.JWT_SECRET);
+    socket.user = await jwt.verify(tok, process.env.JWT_SECRET);
 
-    socket.user = payload;
-
-    // if (!await registerPresence(socket)) {
-    //   next(new Error('session.alreadyActive'));
-    //   return;
-    // }
-
-    // presence registered in ws-presence key redis hashmap
-    next();
+    const response = await registerPresence(socket);
+    if (!response) {
+      return next(new Error('Session already active.'));
+    }
+    return next();
   } catch (err) {
-    next(err);
+    return next(new Error('Authentication error.'));
   }
 };

@@ -42,8 +42,8 @@ describe('/models/task.js', () => {
       User.remove({}).exec(),
     ]);
     await Promise.all([
-      JobComponent.createComponent(JOB_COMPONENT),
-      JobCategory.createCategory(JOB_CATEGORY),
+      JobComponent.addComponent(JOB_COMPONENT),
+      JobCategory.addCategory(JOB_CATEGORY),
       User.signup('worker01', 'abcD3fg$_xxd123'),
       User.signup('worker02', 'abcD3fg$_xxd123'),
       User.signup('worker03', 'abcD3fg$_xxd123'),
@@ -85,7 +85,7 @@ describe('/models/task.js', () => {
       assignedBy: taskWorker02Id,
     };
 
-    await Job.createJob(JOB_TITLE, JOB_DESC, JOB_CATEGORY, JOB_COMPONENT);
+    await Job.addJob(JOB_TITLE, JOB_DESC, JOB_CATEGORY, JOB_COMPONENT);
     jobId = (await Job.findOne({ title: JOB_TITLE }).exec())._id;
   });
 
@@ -109,7 +109,7 @@ describe('/models/task.js', () => {
 
   // it('should error if task title is blank', async () => {
   //   try {
-  //     await Task.createTask({
+  //     await Task.addTask({
   //       jobId,
   //       title: BAD_TITLE_BLANK,
   //       description: GOOD_DESCRIPTION,
@@ -123,7 +123,7 @@ describe('/models/task.js', () => {
   //
   // it('should error if task title is too long', async () => {
   //   try {
-  //     await Task.createTask({
+  //     await Task.addTask({
   //       jobId,
   //       title: BAD_TITLE_LONG,
   //       description: GOOD_DESCRIPTION,
@@ -137,7 +137,7 @@ describe('/models/task.js', () => {
   //
   // it('should error if task description is too long', async () => {
   //   try {
-  //     await Task.createTask({
+  //     await Task.addTask({
   //       jobId,
   //       title: GOOD_TITLE,
   //       description: BAD_DESCRIPTION_LONG,
@@ -151,7 +151,7 @@ describe('/models/task.js', () => {
   //
   // it('should error if parent job blank', async () => {
   //   try {
-  //     await Task.createTask({
+  //     await Task.addTask({
   //       title: GOOD_TITLE,
   //       description: BAD_DESCRIPTION_LONG,
   //       type: GOOD_TYPE,
@@ -164,7 +164,7 @@ describe('/models/task.js', () => {
   //
   // it('should error if parent job not found', async () => {
   //   try {
-  //     await Task.createTask({
+  //     await Task.addTask({
   //       jobId: BAD_JOBID,
   //       title: GOOD_TITLE,
   //       description: BAD_DESCRIPTION_LONG,
@@ -178,7 +178,7 @@ describe('/models/task.js', () => {
   //
   // it('should error if due date blank', async () => {
   //   try {
-  //     await Task.createTask({
+  //     await Task.addTask({
   //       jobId,
   //       title: GOOD_TITLE,
   //       description: GOOD_DESCRIPTION,
@@ -191,7 +191,7 @@ describe('/models/task.js', () => {
   //
   // it('should error if type blank', async () => {
   //   try {
-  //     await Task.createTask({
+  //     await Task.addTask({
   //       jobId,
   //       title: GOOD_TITLE,
   //       description: GOOD_DESCRIPTION,
@@ -203,7 +203,7 @@ describe('/models/task.js', () => {
   //
   // it('should error if type bad', async () => {
   //   try {
-  //     await Task.createTask({
+  //     await Task.addTask({
   //       jobId,
   //       title: GOOD_TITLE,
   //       description: GOOD_DESCRIPTION,
@@ -216,7 +216,7 @@ describe('/models/task.js', () => {
 
   it('should return task object unassigned for good task (w/o assignments)', async () => {
     try {
-      const task = await Task.createTask({
+      const task = await Task.addTask({
         jobId,
         title: GOOD_TITLE,
         description: GOOD_DESCRIPTION,
@@ -240,7 +240,7 @@ describe('/models/task.js', () => {
 
   it('should return updated task object upon successful first addAssignment', async () => {
     try {
-      const oldTask = await Task.createTask({
+      const oldTask = await Task.addTask({
         jobId,
         title: GOOD_TITLE,
         description: GOOD_DESCRIPTION,
