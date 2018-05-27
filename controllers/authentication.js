@@ -51,6 +51,7 @@ exports.tokenPost = async (req, res, next) => {
   try {
     const accessToken = generateAccessToken(res.locals.user);
     res.json({
+      userData: res.locals.user,
       accessToken,
     });
   } catch (err) {

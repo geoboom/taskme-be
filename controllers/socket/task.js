@@ -89,3 +89,12 @@ module.exports.removeTask = (socket, path) => async (payload) => {
   }
 };
 
+module.exports.adminCompleteTask = (socket, path) => async (payload) => {
+  try {
+    const { user } = socket;
+    const task = await Task.adminCompleteTask(payload, user._id);
+    socket.emit(`${path}`, task);
+  } catch (e) {
+    socket.emit(`${path}.error`);
+  }
+};

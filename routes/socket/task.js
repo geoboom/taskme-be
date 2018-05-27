@@ -4,6 +4,7 @@ const {
   addTask,
   editTask,
   removeTask,
+  adminCompleteTask,
   addAssignment,
   removeAssignment,
   promoteAssignment,
@@ -55,6 +56,11 @@ const taskRoutes = [
   {
     path: '.remove',
     handler: removeTask,
+    adminRequired: true,
+  },
+  {
+    path: '.adminComplete',
+    handler: adminCompleteTask,
     adminRequired: true,
   },
   ...taskAssignmentRoutes.map(route => ({ ...route, path: `.assignment${route.path}` })),
