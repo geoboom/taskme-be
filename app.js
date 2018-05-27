@@ -17,7 +17,7 @@ app.use(bodyParser.json());
 app.use(passport.initialize());
 
 app.use('/api', router);
-app.get('/', (req, res, next) => res.send('taskme api'));
+app.get('/', (req, res, next) => res.send('taskme api\ndl: https://drive.google.com/open?id=1ejCwlSATsQsGoDr6ruxn9eqTpSICYIzv'));
 
 errorHandler(app);
 
