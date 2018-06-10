@@ -76,18 +76,16 @@ jobSchema.pre('validate', async (next) => {
   next();
 });
 jobSchema.statics.getAllJobs = async function () {
-  const jobs = await this.findOne({}).exec();
+  const jobs = await this.find({}).exec();
   return jobs;
 };
 
-jobSchema.statics.addJob = async function (newJob) {
-  const {
-    title,
-    description,
-    category,
-    component,
-  } = newJob;
-
+jobSchema.statics.addJob = async function ({
+                                             title,
+                                             description,
+                                             category,
+                                             component,
+                                           }) {
   const job = new this({
     _id: new mongoose.Types.ObjectId(),
     title,
@@ -99,14 +97,13 @@ jobSchema.statics.addJob = async function (newJob) {
   return job.save();
 };
 
-jobSchema.statics.editJob = async function (newJob) {
-  const {
-    _id,
-    title,
-    description,
-    category,
-    component,
-  } = newJob;
+jobSchema.statics.editJob = async function ({
+                                              _id,
+                                              title,
+                                              description,
+                                              category,
+                                              component,
+                                            }) {
   const job = await this.findOne({ _id }).exec();
   if (!job) throw new ApiError('Job not found.', 404);
 
@@ -119,10 +116,8 @@ jobSchema.statics.editJob = async function (newJob) {
 };
 
 // TODO: soft deleted associated tasks
-jobSchema.statics.removeJob = async function (_id) {
-  const removedJob = await this.deleteOne({ _id }).exec();
-
-  return removedJob;
+jobSchema.statics.removeJob = async function ({ _id }) {
+  return this.deleteOne({ _id }).exec();
 };
 
 module.exports = mongoose.model('Job', jobSchema);

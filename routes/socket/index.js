@@ -1,31 +1,45 @@
 const { withAuthorization } = require('../../services/authorization');
-const jobRoutes = require('./job').map(route => ({ ...route, path: `job${route.path}` }));
-const taskRoutes = require('./task').map(route => ({ ...route, path: `task${route.path}` }));
+const jobRoutes = require('./job');
+const taskRoutes = require('./task');
+const userRoutes = require('./user');
 
-const socketAuthorizationFailure = (socket, path) => () => {
+const socketAuthorizationFailure = (io, socket, path) => () => {
   socket.emit(`${path}.authorization.failure`);
 };
 
-module.exports = (socket) => {
-  jobRoutes.map(route => {
+module.exports = (io, socket) => {
+  jobRoutes.forEach(route => {
     socket.on(
-      route.path,
+      route.path.path,
       withAuthorization(
         socket.user,
         route.adminRequired,
         route.handler,
         socketAuthorizationFailure,
-      )(socket, route.path),
-    )});
+      )(io, socket, route.path),
+    )
+  });
 
-  // taskRoutes.map(route =>
-  //   socket.on(
-  //     route.path,
-  //     withAuthorization(
-  //       socket.user,
-  //       route.adminRequired,
-  //       route.handler,
-  //       socketAuthorizationFailure,
-  //     )(socket),
-  //   ));
+  taskRoutes.forEach(route => {
+    socket.on(
+      route.path.path,
+      withAuthorization(
+        socket.user,
+        route.adminRequired,
+        route.handler,
+        socketAuthorizationFailure,
+      )(io, socket, route.path),
+    )
+  });
+
+  userRoutes.forEach(route => {
+    socket.on(
+      route.path.path,
+      withAuthorization(
+        socket.user,
+        route.adminRequired,
+        route.handler,
+        socketAuthorizationFailure,
+      )(io, socket, route.path),
+    )});
 };

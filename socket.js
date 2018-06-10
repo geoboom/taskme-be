@@ -9,7 +9,8 @@ const init = (server) => {
 
   io.use(authenticationMiddleware);
   io.on('connection', (socket) => {
-    socketRoutes(socket);
+    socketRoutes(io, socket);
+
     console.log('connected');
 
     socket.on('disconnect', async () => {

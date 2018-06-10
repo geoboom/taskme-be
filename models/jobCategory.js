@@ -26,7 +26,7 @@ jobCategorySchema.statics.getAllCategories = async function () {
   return categories;
 };
 
-jobCategorySchema.statics.addCategory = async function (category) {
+jobCategorySchema.statics.addCategory = async function ({ category }) {
   const duplicateCategory = await this.findOne({ category }).exec();
   if (duplicateCategory) {
     throw reasons.CATEGORY_EXISTS;
@@ -39,8 +39,8 @@ jobCategorySchema.statics.addCategory = async function (category) {
   return jobCategory.save();
 };
 
-jobCategorySchema.statics.removeCategory = async function(_id) {
-  const removedCategory = this.deleteOne({ _id }).exec();
+jobCategorySchema.statics.removeCategory = async function({ _id }) {
+  const removedCategory = await this.deleteOne({ _id }).exec();
 
   return removedCategory;
 };

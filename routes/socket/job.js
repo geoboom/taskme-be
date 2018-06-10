@@ -10,8 +10,12 @@ const {
   addComponent,
   removeComponent,
 } = require('../../controllers/socket/job');
+const {
+  convertPathsToLeafs,
+  prependRootToLeafs,
+} = require('../../helpers/socketRoutesAugmenter');
 
-const jobCategoryRoutes = [
+const jobCategoryActions = convertPathsToLeafs('.category', [
   {
     path: '.getAll',
     handler: getAllCategories,
@@ -27,9 +31,9 @@ const jobCategoryRoutes = [
     handler: removeCategory,
     adminRequired: true,
   },
-];
+]);
 
-const jobComponentRoutes = [
+const jobComponentActions = convertPathsToLeafs('.component', [
   {
     path: '.getAll',
     handler: getAllComponents,
@@ -45,31 +49,32 @@ const jobComponentRoutes = [
     handler: removeComponent,
     adminRequired: true,
   },
-];
+]);
 
 const jobRoutes = [
-  {
-    path: '.getAll',
-    handler: getAllJobs,
-    adminRequired: true,
-  },
-  {
-    path: '.add',
-    handler: addJob,
-    adminRequired: true,
-  },
-  {
-    path: '.edit',
-    handler: editJob,
-    adminRequired: true,
-  },
-  {
-    path: '.remove',
-    handler: removeJob,
-    adminRequired: true,
-  },
-  ...jobCategoryRoutes.map(route => ({ ...route, path: `.category${route.path}` })),
-  ...jobComponentRoutes.map(route => ({ ...route, path: `.component${route.path}` })),
+  ...convertPathsToLeafs('job', [
+    {
+      path: '.getAll',
+      handler: getAllJobs,
+      adminRequired: true,
+    },
+    {
+      path: '.add',
+      handler: addJob,
+      adminRequired: true,
+    },
+    {
+      path: '.edit',
+      handler: editJob,
+      adminRequired: true,
+    },
+    {
+      path: '.remove',
+      handler: removeJob,
+      adminRequired: true,
+    }]),
+  ...prependRootToLeafs('job', jobCategoryActions),
+  ...prependRootToLeafs('job', jobComponentActions),
 ];
 
 module.exports = jobRoutes;

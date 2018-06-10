@@ -26,7 +26,7 @@ jobComponentSchema.statics.getAllComponents = async function () {
   return components;
 };
 
-jobComponentSchema.statics.addComponent = async function (component) {
+jobComponentSchema.statics.addComponent = async function ({ component }) {
   const duplicateComponent = await this.findOne({ component }).exec();
   if (duplicateComponent) {
     throw reasons.COMPONENT_EXISTS;
@@ -39,8 +39,8 @@ jobComponentSchema.statics.addComponent = async function (component) {
   return jobComponent.save();
 };
 
-jobComponentSchema.statics.removeComponent = async function(_id) {
-  const removedComponent = this.deleteOne({ _id }).exec();
+jobComponentSchema.statics.removeComponent = async function({ _id }) {
+  const removedComponent = await this.deleteOne({ _id }).exec();
 
   return removedComponent;
 };

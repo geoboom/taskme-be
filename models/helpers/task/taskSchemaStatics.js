@@ -78,14 +78,15 @@ module.exports = function (taskSchemaParam) {
   };
   // TODO: implement document locking during 'find and save' to prevent race
   // update condition
-  taskSchema.statics.removeTask = async function (_id) {
-    const task = this.findOne({ _id }).exec();
+  taskSchema.statics.removeTask = async function ({ _id }) {
+    return this.deleteOne({ _id }).exec();
+    // const task = await this.findOne({ _id }).exec();
 
-    task.softDel = true;
-    return task.save();
+    // task.softDel = true;
+    // return task.save();
   };
-  taskSchema.statics.adminCompleteTask = async function (taskId, userId) {
-    const task = await this.findOne({ _id: taskId }).exec();
+  taskSchema.statics.adminCompleteTask = async function ({ _id }, userId) {
+    const task = await this.findOne({ _id }).exec();
     if (!task) throw new ApiError('Task not found.', 404);
     if (task.isCompleted) throw new ApiError('Task already complete.');
 
