@@ -4,7 +4,7 @@ const ApiError = require('../helpers/apiError');
 
 const SALT_WORK_FACTOR = 10;
 const MAX_LOGIN_ATTEMPTS = 5;
-const LOCK_TIME = 2 * 60 * 60 * 1000;
+const LOCK_TIME = 10 * 1000;
 
 const userSchema = mongoose.Schema({
   _id: mongoose.Schema.Types.ObjectId,

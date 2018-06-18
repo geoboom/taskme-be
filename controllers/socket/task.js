@@ -48,7 +48,7 @@ module.exports.assignmentActivity = (io, socket, path) => async (payload) => {
   } catch (e) {
     console.log(e);
     const { d: { taskId } } = payload;
-    socket.emit(`${path.path}.error`, { d: taskId });
+    socket.emit(`${path.path}.error`, { d: { taskId } });
   }
 };
 

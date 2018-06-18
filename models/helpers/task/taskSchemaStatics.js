@@ -39,7 +39,14 @@ module.exports = function (taskSchemaParam) {
     return tasks;
   };
   taskSchema.statics.getAssignedTasks = async function (userId) {
-    const tasks = await this.find({ 'assignments.assignedTo': userId }).exec();
+    const tasks = await this.find().and([
+      {
+        'assignments.assignedTo': userId,
+      },
+      {
+        'assignments.softDel': false,
+      }
+    ]).exec();
     return tasks;
   };
   taskSchema.statics.addTask = async function (task) {

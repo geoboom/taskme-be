@@ -19,6 +19,7 @@ exports.signupPost = async (req, res, next) => {
       username,
       group,
     };
+    req.app.locals.io.emit('user', { d: userData });
     res.json(userData);
   } catch (err) {
     next(err);

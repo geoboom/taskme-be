@@ -59,7 +59,8 @@ const activityValid = (currentStatus, activity, isLeader, leaderStatus) => {
       }
     }
 
-    const finalWorkerStatusS1 = finalWorkerStatusObj.scores.s1;
+    const finalWorkerStatusS1 = finalWorkerStatusObj.scores
+      ? finalWorkerStatusObj.scores.s1 : 1;
     return finalWorkerStatusS1 <= leaderStatusS1;
   }
 
