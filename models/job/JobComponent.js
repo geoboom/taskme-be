@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const ApiError = require('../helpers/apiError');
+const ApiError = require('../../helpers/apiError');
 
 const jobComponentSchema = mongoose.Schema({
   component: {

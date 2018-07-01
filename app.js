@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 const passport = require('passport');
 
 const router = require('./routes');
-const dbConn = require('./models/db');
+const dbConn = require('./config/db');
 const errorHandler = require('./middleware/errorHandler');
 
 const app = express();

@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
-const ApiError = require('../helpers/apiError');
+const ApiError = require('../../helpers/apiError');
 
 const SALT_WORK_FACTOR = 10;
 const MAX_LOGIN_ATTEMPTS = 5;
@@ -28,8 +28,8 @@ const userSchema = mongoose.Schema({
   },
   group: {
     type: String,
-    enum: ['admin', 'worker'],
-    default: 'worker',
+    enum: ['admin', 'standard'],
+    default: 'standard',
     required: 'Group is required.',
   },
   lastSuccessfulLoginTimestamp: {

@@ -4,7 +4,7 @@ const {
   generateAndPersistRefreshToken,
   generateAccessToken,
 } = require('../services/authentication');
-const User = require('../models/user');
+const User = require('../models/user/User');
 
 exports.signupPost = async (req, res, next) => {
   try {
@@ -62,10 +62,10 @@ exports.tokenPost = async (req, res, next) => {
 
 exports.resetDatabaseGet = async (req, res, next) => {
   try {
-    const JobComponent = require('../models/jobComponent');
-    const JobCategory = require('../models/jobCategory');
-    const Job = require('../models/job');
-    const Task = require('../models/task');
+    const JobComponent = require('../models/job/JobComponent');
+    const JobCategory = require('../models/job/JobCategory');
+    const Job = require('../models/job/Job');
+    const Task = require('../models/task/Task');
 
     const response = await Promise.all([
       JobComponent.remove({}).exec(),

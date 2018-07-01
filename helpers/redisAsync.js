@@ -5,7 +5,7 @@ redis.Multi.prototype.asyncExec = promisify(redis.Multi.prototype.exec);
 
 module.exports.redis = redis;
 
-const redisClient = require('./redisClient');
+const redisClient = require('../config/redisClient');
 
 module.exports = {
   redisClient,

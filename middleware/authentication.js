@@ -9,7 +9,7 @@ const {
 const {
   validateRefreshToken,
 } = require('../services/authentication');
-const User = require('../models/user');
+const User = require('../models/user/User');
 
 exports.refreshTokenAuthentication = async (req, res, next) => {
   try {

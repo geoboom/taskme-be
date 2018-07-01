@@ -19,7 +19,7 @@ const {
   asyncRedisExpire,
 } = require('../helpers/redisAsync');
 const ApiError = require('../helpers/apiError');
-const User = require('../models/user');
+const User = require('../models/user/User');
 
 const REFRESH_TOKEN_EXPIRY = 7 * 24 * 60 * 60; // 1 week, in s
 const REFRESH_TOKEN_KEY = 'refresh-tokens';

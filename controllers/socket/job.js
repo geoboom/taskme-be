@@ -1,6 +1,83 @@
-const Job = require('../../models/job');
-const JobCategory = require('../../models/jobCategory');
-const JobComponent = require('../../models/jobComponent');
+const Job = require('../../models/job/Job');
+const JobCategory = require('../../models/job/JobCategory');
+const JobComponent = require('../../models/job/JobComponent');
+
+module.exports.getJob = (io, socket, path) => async (payload) => {
+  try {
+    const { d: { _id } } = payload;
+    const job = await Job.findOne({ _id }).exec();
+    socket.emit(`${path.path}`, { d: job });
+  } catch (e) {
+    socket.emit(`${path.path}.error`);
+  }
+};
+
+module.exports.getAllJobs = (io, socket, path) => async () => {
+  try {
+    const jobs = await Job.getAllJobs();
+    socket.emit(`${path.path}`, { d: jobs });
+  } catch (e) {
+    socket.emit(`${path.path}.error`);
+  }
+};
+
+module.exports.addJob = (io, socket, path) => async (payload) => {
+  try {
+    const { d, i } = payload;
+    const job = await Job.addJob(d);
+    const { _id } = job;
+    socket.emit(`${path.path}`, { d: { _id }, i });
+    io.in('room.group.admin').emit(`${path.root}`, { d: job });
+    socket.to('room.group.admin').emit(
+      'notif.addJob',
+      {
+        title: 'New Job',
+        message: `Job ${_id} has been added.`,
+      },
+    );
+  } catch (e) {
+    const { i } = payload;
+    socket.emit(`${path.path}.error`, { i });
+  }
+};
+
+module.exports.editJob = (io, socket, path) => async (payload) => {
+  try {
+    const { d } = payload;
+    const job = await Job.editJob(d);
+    socket.emit(`${path.path}`, { d: job });
+    io.in('room.group.admin').emit(`${path.root}`, { d: job });
+    socket.to('room.group.admin').emit(
+      'notif.editJob',
+      {
+        title: 'Job Edited',
+        message: `Job ${job._id} has been edited.`,
+      },
+    );
+  } catch (e) {
+    const { d } = payload;
+    socket.emit(`${path.path}.error`, { d: { _id: d._id } });
+  }
+};
+
+module.exports.removeJob = (io, socket, path) => async (payload) => {
+  try {
+    const { d: { _id } } = payload;
+    await Job.removeJob(_id);
+    socket.emit(`${path.path}`, { d: { _id } });
+    io.in('room.group.admin').emit(`${path.root}`, { d: { _id, deleted: true } });
+    socket.to('room.group.admin').emit(
+      'notif.removeJob',
+      {
+        title: 'Job Removed',
+        message: `Job ${_id} has been removed.`,
+      },
+    );
+  } catch (e) {
+    const { d } = payload;
+    socket.emit(`${path.path}.error`, { d });
+  }
+};
 
 module.exports.getAllCategories = (io, socket, path) => async () => {
   try {
@@ -17,7 +94,7 @@ module.exports.addCategory = (io, socket, path) => async (payload) => {
     const jobCategory = await JobCategory.addCategory(d);
     const { _id } = jobCategory;
     socket.emit(`${path.path}`, { d: { _id }, i }); // for ack
-    io.emit(`${path.root}`, { d: jobCategory }); // to emit only to admins
+    io.in('room.group.admin').emit(`${path.root}`, { d: jobCategory });
   } catch (e) {
     socket.emit(`${path.path}.error`);
   }
@@ -28,7 +105,7 @@ module.exports.removeCategory = (io, socket, path) => async (payload) => {
     const { d, i } = payload; // d is data and i is sequence number
     await JobCategory.removeCategory(d);
     socket.emit(`${path.path}`, { d, i }); // for ack
-    io.emit(`${path.root}`, { d: { ...d, deleted: true } });
+    io.in('room.group.admin').emit(`${path.root}`, { d: { ...d, deleted: true } });
   } catch (e) {
     const { d } = payload;
     socket.emit(`${path.path}.error`, { d });
@@ -50,7 +127,7 @@ module.exports.addComponent = (io, socket, path) => async (payload) => {
     const jobComponent = await JobComponent.addComponent(d);
     const { _id } = jobComponent;
     socket.emit(`${path.path}`, { d: { _id }, i }); // for ack
-    io.emit(`${path.root}`, { d: jobComponent }); // to emit only to admins
+    io.in('room.group.admin').emit(`${path.root}`, { d: jobComponent }); // to emit only to admins
   } catch (e) {
     socket.emit(`${path.path}.error`);
   }
@@ -61,53 +138,7 @@ module.exports.removeComponent = (io, socket, path) => async (payload) => {
     const { d, i } = payload; // d is data and i is sequence number
     await JobComponent.removeComponent(d);
     socket.emit(`${path.path}`, { d, i }); // for ack
-    io.emit(`${path.root}`, { d: { ...d, deleted: true } });
-  } catch (e) {
-    const { d } = payload;
-    socket.emit(`${path.path}.error`, { d });
-  }
-};
-
-module.exports.getAllJobs = (io, socket, path) => async () => {
-  try {
-    const jobs = await Job.getAllJobs();
-    socket.emit(`${path.path}`, { d: jobs });
-  } catch (e) {
-    socket.emit(`${path.path}.error`);
-  }
-};
-
-module.exports.addJob = (io, socket, path) => async (payload) => {
-  try {
-    const { d, i } = payload;
-    const job = await Job.addJob(d);
-    const { _id } = job;
-    socket.emit(`${path.path}`, { d: { _id }, i });
-    io.emit(`${path.root}`, { d: job });
-  } catch (e) {
-    const { i } = payload;
-    socket.emit(`${path.path}.error`, { i });
-  }
-};
-
-module.exports.editJob = (io, socket, path) => async (payload) => {
-  try {
-    const { d } = payload;
-    const job = await Job.editJob(d);
-    socket.emit(`${path.path}`, { d: job });
-    io.emit(`${path.root}`, { d: job });
-  } catch (e) {
-    const { d } = payload;
-    socket.emit(`${path.path}.error`, { d: { _id: d._id } });
-  }
-};
-
-module.exports.removeJob = (io, socket, path) => async (payload) => {
-  try {
-    const { d } = payload;
-    await Job.removeJob(d);
-    socket.emit(`${path.path}`, { d });
-    io.emit(`${path.root}`, { d: { ...d, deleted: true } });
+    io.in('room.group.admin').emit(`${path.root}`, { d: { ...d, deleted: true } });
   } catch (e) {
     const { d } = payload;
     socket.emit(`${path.path}.error`, { d });

@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 const jwt = require('jsonwebtoken');
 
 const { registerPresence } = require('../../services/socket');

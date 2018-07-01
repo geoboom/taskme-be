@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
 
-const ApiError = require('../helpers/apiError');
-const JobCategory = require('./jobCategory');
-const JobComponent = require('./jobComponent');
+const ApiError = require('../../helpers/apiError');
+const JobCategory = require('./JobCategory');
+const JobComponent = require('./JobComponent');
 
 let validCategories = [];
 let validComponents = [];
@@ -10,8 +10,8 @@ let validComponents = [];
 const categoryValidator = category => validCategories.includes(category);
 const componentValidator = component => validComponents.includes(component);
 
-const TITLE_MAXLEN = 80;
-const DESC_MAXLEN = 200;
+const TITLE_MAX = 80;
+const DESC_MAX = 200;
 
 const jobSchema = mongoose.Schema({
   _id: mongoose.Schema.Types.ObjectId,
@@ -21,8 +21,8 @@ const jobSchema = mongoose.Schema({
     trim: true,
     validate: [
       {
-        validator: v => v.trim().length < TITLE_MAXLEN,
-        message: `Job title cannot have more than ${TITLE_MAXLEN} characters.`,
+        validator: v => v.trim().length < TITLE_MAX,
+        message: `Job title cannot have more than ${TITLE_MAX} characters.`,
       },
     ],
     required: 'Job title required.',
@@ -32,8 +32,8 @@ const jobSchema = mongoose.Schema({
     trim: true,
     validate: [
       {
-        validator: v => v.trim().length < DESC_MAXLEN,
-        message: `Job description cannot have more than ${DESC_MAXLEN} characters.`,
+        validator: v => v.trim().length < DESC_MAX,
+        message: `Job description cannot have more than ${DESC_MAX} characters.`,
       },
     ],
   },
@@ -75,17 +75,22 @@ jobSchema.pre('validate', async (next) => {
 
   next();
 });
+
 jobSchema.statics.getAllJobs = async function () {
-  const jobs = await this.find({}).exec();
-  return jobs;
+  return this.find({}).exec();
+};
+
+jobSchema.statics.getJob = async function (_id) {
+  const job = await this.findOne({ _id }).exec();
+  return job;
 };
 
 jobSchema.statics.addJob = async function ({
-                                             title,
-                                             description,
-                                             category,
-                                             component,
-                                           }) {
+  title,
+  description,
+  category,
+  component,
+}) {
   const job = new this({
     _id: new mongoose.Types.ObjectId(),
     title,
@@ -98,12 +103,12 @@ jobSchema.statics.addJob = async function ({
 };
 
 jobSchema.statics.editJob = async function ({
-                                              _id,
-                                              title,
-                                              description,
-                                              category,
-                                              component,
-                                            }) {
+  _id,
+  title,
+  description,
+  category,
+  component,
+}) {
   const job = await this.findOne({ _id }).exec();
   if (!job) throw new ApiError('Job not found.', 404);
 
@@ -115,9 +120,11 @@ jobSchema.statics.editJob = async function ({
   return job.save();
 };
 
-// TODO: soft deleted associated tasks
-jobSchema.statics.removeJob = async function ({ _id }) {
-  return this.deleteOne({ _id }).exec();
+jobSchema.statics.removeJob = async function (jobId) {
+// eslint-disable-next-line global-require
+  const Task = require('../task/Task');
+  await Task.updateMany({ jobId }, { deleted: true }).exec();
+  return this.deleteOne({ _id: jobId }).exec();
 };
 
 module.exports = mongoose.model('Job', jobSchema);

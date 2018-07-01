@@ -8,11 +8,11 @@
     <orderEntry type="library" name="chai-DefinitelyTyped" level="application" />
     <orderEntry type="library" name="express-DefinitelyTyped" level="application" />
     <orderEntry type="library" name="mocha-DefinitelyTyped" level="application" />
-    <orderEntry type="library" name="mongoose-DefinitelyTyped" level="application" />
     <orderEntry type="library" name="passport-DefinitelyTyped" level="application" />
     <orderEntry type="library" name="socket.io-DefinitelyTyped" level="application" />
     <orderEntry type="library" name="@types/express" level="application" />
     <orderEntry type="library" name="@types/node" level="application" />
     <orderEntry type="library" name="@types/passport" level="application" />
+    <orderEntry type="library" name="@types/mongoose" level="application" />
   </component>
 </module>
