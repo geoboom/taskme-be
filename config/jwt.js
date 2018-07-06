@@ -1,3 +1,3 @@
 exports.JWT_OPTIONS = {
-  expiresIn: '60s',
+  expiresIn: '300s',
 };

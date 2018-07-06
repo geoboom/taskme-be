@@ -5,7 +5,7 @@ const LocalStrategy = require('passport-local');
 
 const {
   JWT_OPTIONS,
-} = require('../config');
+} = require('../config/jwt');
 const {
   validateRefreshToken,
 } = require('../services/authentication');

@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 
 const {
   JWT_OPTIONS,
-} = require('../config');
+} = require('../config/jwt');
 const {
   redisClient,
   asyncRedisSet,

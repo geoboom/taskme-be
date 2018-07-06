@@ -7,6 +7,7 @@ module.exports = async (socket, next) => {
   const { tok } = socket.handshake.query;
 
   try {
+    console.log('auth attempt:', socket.id);
     socket.user = await jwt.verify(tok, process.env.JWT_SECRET);
 
     const response = await registerPresence(socket);
