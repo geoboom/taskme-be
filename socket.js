@@ -22,6 +22,7 @@ const init = (server) => {
       console.log('disconnected');
       try {
         await unregisterPresence(socket);
+        console.log('unregistered');
         socket.emit('unregistered');
       } catch (e) {
         console.log(e);
