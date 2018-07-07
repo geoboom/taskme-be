@@ -6,7 +6,10 @@ const setupRooms = require('./middleware/socket/setupRooms');
 const { unregisterPresence } = require('./services/socket');
 
 const init = (server) => {
-  const io = socketio(server);
+  const io = socketio(server, {
+    pingTimeout: 10000,
+    pingInterval: 5000,
+  });
 
   io.use(authenticationMiddleware);
   io.use(setupRooms);
