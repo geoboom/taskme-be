@@ -140,27 +140,30 @@ module.exports.addAssignment = (io, socket, path) => async (payload) => {
     socket.emit(`${path.path}`, { d: task });
     io.in('room.group.admin').emit(`${path.root}`, { d: task });
     io.in(`room.task.${taskId}`).emit(`${path.root}`, { d: task });
+    const notifData = {
+      title: 'Assignment Added',
+      message: `${assignedTo} has been assigned to task ${taskId} by ${assignedBy}.`,
+    };
     socket.to('room.group.admin').to(`room.task.${taskId}`).emit(
       'notif.addAssignment',
-      {
-        title: 'Assignment Added',
-        message: `${assignedTo} has been assigned to task ${taskId} by ${assignedBy}.`,
-      },
+      notifData,
     );
+    await sendPushNotif(notifData, 'admin');
     const socketId = await getPresence(assignedTo);
+    const notifData2 = {
+      title: 'New Assignment',
+      message: `You have been assigned task ${taskId} by ${assignedBy}.`,
+    };
     if (socketId) {
       const target = io.sockets.connected[socketId];
       target.join(`room.task.${taskId}`);
       target.emit(`${path.root}`, { d: task });
       target.emit(
         'notif.addAssignment',
-        {
-          title: 'New Assignment',
-          message: `You have been assigned task ${taskId} by ${assignedBy}.`,
-        },
+        notifData2,
       );
     } else {
-      // push notification
+      await sendPushNotif(notifData2, '', assignedTo);
     }
   } catch (e) {
     const { d } = payload;
@@ -174,29 +177,33 @@ module.exports.removeAssignment = (io, socket, path) => async (payload) => {
     const task = await Task.removeAssignment(taskId, assignedTo);
     socket.emit(`${path.path}`, { d: task });
     const socketId = await getPresence(assignedTo);
+    const notifData = {
+      title: 'Removed from Task',
+      message: `You have been removed from ${taskId}.`,
+    };
     if (socketId) {
       const target = io.sockets.connected[socketId];
       target.leave(`room.task.${taskId}`);
       target.emit(`${path.root}`, { d: task });
       target.emit(
         'notif.removeAssignment',
-        {
-          title: 'Removed from Task',
-          message: `You have been removed from ${taskId}.`,
-        },
+        notifData,
       );
     } else {
       // push notification
+      await sendPushNotif(notifData, '', assignedTo);
     }
     io.in('room.group.admin').emit(`${path.root}`, { d: task });
     io.in(`room.task.${taskId}`).emit(`${path.root}`, { d: task });
+    const notifData2 = {
+      title: 'Assignment Removed',
+      message: `${assignedTo} has been removed from ${taskId}.`,
+    };
     socket.to('room.group.admin').to(`room.task.${taskId}`).emit(
       'notif.removeAssignment',
-      {
-        title: 'Assignment Removed',
-        message: `${assignedTo} has been removed from ${taskId}.`,
-      },
+      notifData2,
     );
+    await sendPushNotif(notifData2, 'admin');
   } catch (e) {
     const { d: { taskId, assignedTo } } = payload;
     socket.emit(`${path.path}.error`, { d: { taskId, assignedTo } });
@@ -236,6 +243,10 @@ module.exports.assignmentActivity = (io, socket, path) => async (payload) => {
     io.in('room.group.admin').emit(`${path.root}`, { d: task });
     io.in(`room.task.${taskId}`).emit(`${path.root}`, { d: task });
     if (task.status !== oldTask.status) {
+      const notifData = {
+        title: 'Task Status Updated',
+        message: `Task ${taskId}: ${oldTask.status} -> ${task.status}.`,
+      };
       socket.to('room.group.admin').to(`room.task.${taskId}`).emit(
         'notif.taskStatusChange',
         {
@@ -243,6 +254,7 @@ module.exports.assignmentActivity = (io, socket, path) => async (payload) => {
           message: `Task ${taskId}: ${oldTask.status} -> ${task.status}.`,
         },
       );
+      await sendPushNotif(notifData, 'admin');
     }
   } catch (e) {
     const { d: { taskId } } = payload;
