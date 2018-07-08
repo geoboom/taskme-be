@@ -1,3 +1,4 @@
+/* eslint-disable no-await-in-loop */
 const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
 
@@ -92,3 +93,9 @@ exports.generateAccessToken = payload =>
 exports.submitDeviceToken = async (_id, deviceToken) =>
   User.submitDeviceToken(_id, deviceToken);
 
+exports.updateCachedUser = async (user) => {
+  await asyncRedisHMSet(
+    `user:${user._id}`,
+    { ...user, _id: user._id.toString() },
+  );
+};

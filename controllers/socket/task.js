@@ -1,6 +1,9 @@
 const { Assignment } = require('../../models/task/assignment/Assignment');
 const Task = require('../../models/task/Task');
 const { getPresence } = require('../../services/socket');
+const {
+  sendPushNotif,
+} = require('../../services/pushNotification');
 
 const deleteRoom = (io, roomName) => {
   const room = io.sockets.adapter.rooms[roomName];
@@ -50,13 +53,15 @@ module.exports.addTask = (io, socket, path) => async (payload) => {
     const { _id } = task;
     socket.emit(`${path.path}`, { d: { _id }, i });
     io.in('room.group.admin').emit(`${path.root}`, { d: task });
+    const notifData = {
+      title: 'New Task',
+      message: `Task ${_id} has been added.`,
+    };
     socket.to('room.group.admin').emit(
       'notif.addTask',
-      {
-        title: 'New Task',
-        message: `Task ${_id} has been added.`,
-      },
+      notifData,
     );
+    await sendPushNotif(notifData, 'admin');
   } catch (e) {
     const { i } = payload;
     socket.emit(`${path.path}.error`, { i });
@@ -70,13 +75,15 @@ module.exports.editTask = (io, socket, path) => async (payload) => {
     socket.emit(`${path.path}`, { d: task });
     io.in('room.group.admin').emit(`${path.root}`, { d: task });
     io.in(`room.task.${task._id}`).emit(`${path.root}`, { d: task });
+    const notifData = {
+      title: 'Task Edited',
+      message: `Task ${task._id} has been edited.`,
+    };
     socket.to('room.group.admin').to(`room.task.${task._id}`).emit(
       'notif.editTask',
-      {
-        title: 'Task Edited',
-        message: `Task ${task._id} has been edited.`,
-      },
+      notifData,
     );
+    await sendPushNotif(notifData, 'admin');
   } catch (e) {
     const { d: { _id } } = payload;
     socket.emit(`${path.path}.error`, { d: { _id } });
@@ -90,14 +97,16 @@ module.exports.removeTask = (io, socket, path) => async (payload) => {
     socket.emit(`${path.path}`, { d: { _id } });
     io.in('room.group.admin').emit(`${path.root}`, { d: { _id, deleted: true } });
     io.in(`room.task.${_id}`).emit(`${path.root}`, { d: { _id, deleted: true } });
+    const notifData = {
+      title: 'Task Removed',
+      message: `Task ${_id} has been removed.`,
+    };
     socket.to('room.group.admin').to(`room.task.${_id}`).emit(
       'notif.removeTask',
-      {
-        title: 'Task Removed',
-        message: `Task ${_id} has been removed.`,
-      },
+      notifData,
     );
     deleteRoom(io, `room.task.${_id}`);
+    await sendPushNotif(notifData, 'admin');
   } catch (e) {
     console.log(e);
     const { d } = payload;

@@ -10,6 +10,7 @@ const redisClient = require('../config/redisClient');
 module.exports = {
   redisClient,
   asyncRedisGet: promisify(redisClient.get).bind(redisClient),
+  asyncRedisMGet: promisify(redisClient.mget).bind(redisClient),
   asyncRedisSet: promisify(redisClient.set).bind(redisClient),
   asyncRedisDel: promisify(redisClient.del).bind(redisClient),
   asyncRedisExists: promisify(redisClient.exists).bind(redisClient),

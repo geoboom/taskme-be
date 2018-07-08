@@ -12,8 +12,7 @@ const {
   loginPost,
   deviceTokenPost,
   tokenPost,
-  registerAdminGet,
-  resetDatabaseGet,
+  logoutPost
 } = require('../controllers/authentication');
 
 const router = express.Router();
@@ -45,6 +44,11 @@ router.post(
   '/token',
   refreshTokenAuthentication,
   tokenPost,
+);
+
+router.post(
+  '/logout',
+  logoutPost,
 );
 
 router.get(
