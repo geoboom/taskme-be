@@ -52,6 +52,7 @@ exports.loginPost = async (req, res, next) => {
 
 exports.deviceTokenPost = async (req, res, next) => {
   try {
+    console.log(req);
     const { user: { _id }, deviceToken } = req;
     await submitDeviceToken(_id, deviceToken);
     res.json({
