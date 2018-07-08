@@ -10,22 +10,13 @@ const {
 const {
   signupPost,
   loginPost,
+  deviceTokenPost,
   tokenPost,
   registerAdminGet,
   resetDatabaseGet,
 } = require('../controllers/authentication');
 
 const router = express.Router();
-
-router.get(
-  '/resetDatabase',
-  resetDatabaseGet,
-);
-
-router.get(
-  '/registerAdmin',
-  registerAdminGet,
-);
 
 router.post(
   '/signup',
@@ -43,6 +34,12 @@ router.post(
 //   passport.authenticate('local', { session: false }),
 //   changepwPut,
 // );
+
+router.post(
+  '/deviceToken',
+  refreshTokenAuthentication,
+  deviceTokenPost,
+);
 
 router.post(
   '/token',

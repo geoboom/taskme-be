@@ -3,6 +3,7 @@ const {
   invalidateRefreshToken,
   generateAndPersistRefreshToken,
   generateAccessToken,
+  submitDeviceToken,
 } = require('../services/authentication');
 const User = require('../models/user/User');
 
@@ -28,13 +29,14 @@ exports.signupPost = async (req, res, next) => {
 
 exports.loginPost = async (req, res, next) => {
   try {
-    const user = req.user;
+    const { user } = req;
     // to add user profile picture and other metadata
     const userData = {
       _id: user._id,
       username: user.username,
       group: user.group,
       lastSuccessfulLoginTimestamp: user.lastSuccessfulLoginTimestamp,
+      hasDeviceToken: user.deviceToken !== '',
     };
 
     const refreshToken = await generateAndPersistRefreshToken(userData);
@@ -42,6 +44,18 @@ exports.loginPost = async (req, res, next) => {
     res.json({
       refreshToken,
       userData,
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+exports.deviceTokenPost = async (req, res, next) => {
+  try {
+    const { user: { _id }, deviceToken } = req;
+    await submitDeviceToken(_id, deviceToken);
+    res.json({
+      deviceToken,
     });
   } catch (err) {
     next(err);
@@ -57,48 +71,5 @@ exports.tokenPost = async (req, res, next) => {
     });
   } catch (err) {
     next(err);
-  }
-};
-
-exports.resetDatabaseGet = async (req, res, next) => {
-  try {
-    const JobComponent = require('../models/job/JobComponent');
-    const JobCategory = require('../models/job/JobCategory');
-    const Job = require('../models/job/Job');
-    const Task = require('../models/task/Task');
-
-    const response = await Promise.all([
-      JobComponent.remove({}).exec(),
-      JobCategory.remove({}).exec(),
-      Job.remove({}).exec(),
-      Task.remove({}).exec(),
-      User.remove({}).exec(),
-    ]);
-    res.json({ response });
-  } catch (e) {
-    next(e);
-  }
-};
-
-exports.registerAdminGet = async (req, res, next) => {
-  try {
-    const user = await User.findOne({ username: 'administrator' }).exec();
-    if (user) {
-      next('Administrator user already exists.');
-    }
-
-    const newUser = await (new User({
-      _id: new require('mongoose').Types.ObjectId(),
-      username: 'administrator',
-      password: 'P4ssword$123',
-      group: 'admin',
-    })).save();
-
-    res.json({
-      ...newUser._doc,
-      passwordPlain: 'P4ssword$123',
-    });
-  } catch (e) {
-    next(e);
   }
 };

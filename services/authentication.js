@@ -89,3 +89,6 @@ exports.invalidateRefreshToken = async (refreshToken) => {
 exports.generateAccessToken = payload =>
   jwt.sign(payload, process.env.JWT_SECRET, JWT_OPTIONS); // synchronous
 
+exports.submitDeviceToken = async (_id, deviceToken) =>
+  User.submitDeviceToken(_id, deviceToken);
+

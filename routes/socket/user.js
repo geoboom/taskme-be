@@ -5,13 +5,15 @@ const {
   convertPathsToLeafs,
 } = require('../../helpers/socketRoutesAugmenter');
 
-const userRoutes = convertPathsToLeafs('user',
+const userRoutes = convertPathsToLeafs(
+  'user',
   [
     {
       path: '.getAll',
       handler: getAllUsers,
     },
-  ]);
+  ],
+);
 
 
 module.exports = userRoutes;

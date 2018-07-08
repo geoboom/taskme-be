@@ -8,7 +8,7 @@ const socketAuthorizationFailure = (io, socket, path) => () => {
 };
 
 module.exports = (io, socket) => {
-  jobRoutes.forEach(route => {
+  jobRoutes.forEach((route) => {
     socket.on(
       route.path.path,
       withAuthorization(
@@ -17,10 +17,10 @@ module.exports = (io, socket) => {
         route.handler,
         socketAuthorizationFailure,
       )(io, socket, route.path),
-    )
+    );
   });
 
-  taskRoutes.forEach(route => {
+  taskRoutes.forEach((route) => {
     socket.on(
       route.path.path,
       withAuthorization(
@@ -29,10 +29,10 @@ module.exports = (io, socket) => {
         route.handler,
         socketAuthorizationFailure,
       )(io, socket, route.path),
-    )
+    );
   });
 
-  userRoutes.forEach(route => {
+  userRoutes.forEach((route) => {
     socket.on(
       route.path.path,
       withAuthorization(
@@ -41,5 +41,6 @@ module.exports = (io, socket) => {
         route.handler,
         socketAuthorizationFailure,
       )(io, socket, route.path),
-    )});
+    );
+  });
 };

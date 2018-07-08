@@ -32,6 +32,12 @@ const userSchema = mongoose.Schema({
     default: 'standard',
     required: 'Group is required.',
   },
+  deviceToken: {
+    /* TODO: devivceTokens array of strings since one user can have multiple
+    devices */
+    type: String,
+    default: '',
+  },
   lastSuccessfulLoginTimestamp: {
     type: Date,
   },
@@ -175,5 +181,10 @@ userSchema.statics.getAuthenticated = async function (username, password) {
   throw reasons.USERNAME_OR_PASSWORD_INCORRECT;
 };
 
+userSchema.statics.submitDeviceToken = async function (_id, deviceToken) {
+  const user = await this.findOne({ _id });
+  user.deviceToken = deviceToken;
+  return user.save();
+};
 
 module.exports = mongoose.model('User', userSchema);
