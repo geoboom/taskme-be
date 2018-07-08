@@ -31,6 +31,7 @@ exports.loginPost = async (req, res, next) => {
   try {
     const { user } = req;
     // to add user profile picture and other metadata
+    console.log(req.user);
     const userData = {
       _id: user._id,
       username: user.username,
@@ -52,7 +53,7 @@ exports.loginPost = async (req, res, next) => {
 
 exports.deviceTokenPost = async (req, res, next) => {
   try {
-    console.log(req);
+    console.log(req.user);
     const { user: { _id }, deviceToken } = req;
     await submitDeviceToken(_id, deviceToken);
     res.json({
