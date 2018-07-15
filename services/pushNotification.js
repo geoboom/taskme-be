@@ -59,6 +59,7 @@ exports.sendPushNotif = async (notifData, group, targetUserId = null) => {
       },
       body: payload,
     });
+    console.log(res);
     return res;
   }
 

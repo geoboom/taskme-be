@@ -62,7 +62,6 @@ exports.loginPost = async (req, res, next) => {
 exports.deviceTokenPost = async (req, res, next) => {
   try {
     const { deviceToken } = req.body;
-    console.log('deviceToken:', deviceToken);
     const { _id } = res.locals.user;
     await submitDeviceToken(_id, deviceToken.token);
     await updateCachedUser({
