@@ -5,7 +5,7 @@ const {
   sendPushNotif
 } = require('../../services/pushNotification');
 
-module.exports.getJob = (io, socket, path) => async (payload) => {
+exports.getJob = (io, socket, path) => async (payload) => {
   try {
     const { d: { _id } } = payload;
     const job = await Job.findOne({ _id }).exec();
@@ -15,7 +15,7 @@ module.exports.getJob = (io, socket, path) => async (payload) => {
   }
 };
 
-module.exports.getAllJobs = (io, socket, path) => async () => {
+exports.getAllJobs = (io, socket, path) => async () => {
   try {
     const jobs = await Job.getAllJobs();
     socket.emit(`${path.path}`, { d: jobs });
@@ -24,7 +24,7 @@ module.exports.getAllJobs = (io, socket, path) => async () => {
   }
 };
 
-module.exports.addJob = (io, socket, path) => async (payload) => {
+exports.addJob = (io, socket, path) => async (payload) => {
   try {
     const { d, i } = payload;
     const job = await Job.addJob(d);
@@ -46,7 +46,7 @@ module.exports.addJob = (io, socket, path) => async (payload) => {
   }
 };
 
-module.exports.editJob = (io, socket, path) => async (payload) => {
+exports.editJob = (io, socket, path) => async (payload) => {
   try {
     const { d } = payload;
     const job = await Job.editJob(d);
@@ -68,7 +68,7 @@ module.exports.editJob = (io, socket, path) => async (payload) => {
   }
 };
 
-module.exports.removeJob = (io, socket, path) => async (payload) => {
+exports.removeJob = (io, socket, path) => async (payload) => {
   try {
     const { d: { _id } } = payload;
     await Job.removeJob(_id);
@@ -89,7 +89,7 @@ module.exports.removeJob = (io, socket, path) => async (payload) => {
   }
 };
 
-module.exports.getAllCategories = (io, socket, path) => async () => {
+exports.getAllCategories = (io, socket, path) => async () => {
   try {
     const jobCategories = await JobCategory.getAllCategories();
     socket.emit(`${path.path}`, { d: jobCategories });
@@ -98,7 +98,7 @@ module.exports.getAllCategories = (io, socket, path) => async () => {
   }
 };
 
-module.exports.addCategory = (io, socket, path) => async (payload) => {
+exports.addCategory = (io, socket, path) => async (payload) => {
   try {
     const { d, i } = payload; // d is data and i is sequence number
     const jobCategory = await JobCategory.addCategory(d);
@@ -110,7 +110,7 @@ module.exports.addCategory = (io, socket, path) => async (payload) => {
   }
 };
 
-module.exports.removeCategory = (io, socket, path) => async (payload) => {
+exports.removeCategory = (io, socket, path) => async (payload) => {
   try {
     const { d, i } = payload; // d is data and i is sequence number
     await JobCategory.removeCategory(d);
@@ -122,7 +122,7 @@ module.exports.removeCategory = (io, socket, path) => async (payload) => {
   }
 };
 
-module.exports.getAllComponents = (io, socket, path) => async () => {
+exports.getAllComponents = (io, socket, path) => async () => {
   try {
     const jobComponents = await JobComponent.getAllComponents();
     socket.emit(`${path.path}`, { d: jobComponents });
@@ -131,7 +131,7 @@ module.exports.getAllComponents = (io, socket, path) => async () => {
   }
 };
 
-module.exports.addComponent = (io, socket, path) => async (payload) => {
+exports.addComponent = (io, socket, path) => async (payload) => {
   try {
     const { d, i } = payload; // d is data and i is sequence number
     const jobComponent = await JobComponent.addComponent(d);
@@ -143,7 +143,7 @@ module.exports.addComponent = (io, socket, path) => async (payload) => {
   }
 };
 
-module.exports.removeComponent = (io, socket, path) => async (payload) => {
+exports.removeComponent = (io, socket, path) => async (payload) => {
   try {
     const { d, i } = payload; // d is data and i is sequence number
     await JobComponent.removeComponent(d);

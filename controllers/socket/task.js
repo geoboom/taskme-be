@@ -14,7 +14,7 @@ const deleteRoom = (io, roomName) => {
   }
 };
 
-module.exports.getTask = (io, socket, path) => async (payload) => {
+exports.getTask = (io, socket, path) => async (payload) => {
   try {
     const { d: { _id } } = payload;
     const task = await Task.findOne({ _id }).exec();
@@ -24,7 +24,7 @@ module.exports.getTask = (io, socket, path) => async (payload) => {
   }
 };
 
-module.exports.getAllTasks = (io, socket, path) => async () => {
+exports.getAllTasks = (io, socket, path) => async () => {
   try {
     const tasks = await Task.getAllTasks();
     socket.emit(`${path.path}`, { d: tasks });
@@ -33,7 +33,7 @@ module.exports.getAllTasks = (io, socket, path) => async () => {
   }
 };
 
-module.exports.getAssignedTasks = (io, socket, path) => async () => {
+exports.getAssignedTasks = (io, socket, path) => async () => {
   try {
     const { user } = socket;
     const tasks = await Task.getAssignedTasks(user._id);
@@ -46,7 +46,7 @@ module.exports.getAssignedTasks = (io, socket, path) => async () => {
   }
 };
 
-module.exports.addTask = (io, socket, path) => async (payload) => {
+exports.addTask = (io, socket, path) => async (payload) => {
   try {
     const { d, i } = payload;
     const task = await Task.addTask(d);
@@ -68,7 +68,7 @@ module.exports.addTask = (io, socket, path) => async (payload) => {
   }
 };
 
-module.exports.editTask = (io, socket, path) => async (payload) => {
+exports.editTask = (io, socket, path) => async (payload) => {
   try {
     const { d } = payload;
     const task = await Task.editTask(d);
@@ -90,7 +90,7 @@ module.exports.editTask = (io, socket, path) => async (payload) => {
   }
 };
 
-module.exports.removeTask = (io, socket, path) => async (payload) => {
+exports.removeTask = (io, socket, path) => async (payload) => {
   try {
     const { d: { _id } } = payload; // d: { _id: ... }
     await Task.removeTask(_id);
@@ -114,7 +114,7 @@ module.exports.removeTask = (io, socket, path) => async (payload) => {
   }
 };
 
-module.exports.adminCompleteTask = (io, socket, path) => async (payload) => {
+exports.adminCompleteTask = (io, socket, path) => async (payload) => {
   try {
     const { d: { _id: taskId } } = payload;
     const { user: { _id: userId } } = socket;
@@ -129,7 +129,7 @@ module.exports.adminCompleteTask = (io, socket, path) => async (payload) => {
   }
 };
 
-module.exports.addAssignment = (io, socket, path) => async (payload) => {
+exports.addAssignment = (io, socket, path) => async (payload) => {
   try {
     const { d: { taskId, assignedTo } } = payload;
     const { user: { _id: assignedBy } } = socket;
@@ -171,7 +171,7 @@ module.exports.addAssignment = (io, socket, path) => async (payload) => {
   }
 };
 
-module.exports.removeAssignment = (io, socket, path) => async (payload) => {
+exports.removeAssignment = (io, socket, path) => async (payload) => {
   try {
     const { d: { taskId, assignedTo } } = payload;
     const task = await Task.removeAssignment(taskId, assignedTo);
@@ -210,7 +210,7 @@ module.exports.removeAssignment = (io, socket, path) => async (payload) => {
   }
 };
 
-module.exports.promoteAssignment = (io, socket, path) => async (payload) => {
+exports.promoteAssignment = (io, socket, path) => async (payload) => {
   try {
     const { d: { taskId, assignedTo } } = payload;
     const task = await Task.promoteAssignment(taskId, assignedTo);
@@ -227,7 +227,7 @@ module.exports.promoteAssignment = (io, socket, path) => async (payload) => {
   }
 };
 
-module.exports.assignmentActivity = (io, socket, path) => async (payload) => {
+exports.assignmentActivity = (io, socket, path) => async (payload) => {
   try {
     const { d: { taskId, activity } } = payload;
     const { user: { _id: userId } } = socket;

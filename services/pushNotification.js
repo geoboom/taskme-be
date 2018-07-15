@@ -43,7 +43,6 @@ exports.sendPushNotif = async (notifData, group, targetUserId = null) => {
       }
     }
   }
-  console.log(res3);
 
   if (res3.length > 0) {
     const payload = JSON.stringify({
@@ -56,11 +55,10 @@ exports.sendPushNotif = async (notifData, group, targetUserId = null) => {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': 'key=AAAATknKQCA:APA91bEtl-7bnP2I_-igcZI42Wj8Vncbx-ipGob_veIVKLpGl4Iuib2vBRwPafqA1MvddMKO0UzheSJFVcIcgxdHiWtq3gLib49CvnpXu2T43YCKN_BBnt8P53UHecPtShyqy1tVp8msnrjRelLylz8OJbuz_L5uOQ',
+        'Authorization': `key=${process.env.FIREBASE_AUTH_KEY}`,
       },
       body: payload,
     });
-    console.log(res);
     return res;
   }
 
