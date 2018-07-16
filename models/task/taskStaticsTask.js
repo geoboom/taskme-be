@@ -24,15 +24,11 @@ module.exports = function (taskSchemaParam) {
     return this.find({ deleted: false }).exec();
   };
   taskSchema.statics.getAssignedTasks = async function (userId) {
-    return this.find().and([
-      {
-        deleted: false,
-      },
-      {
-        'assignments.assignedTo': userId,
-        'assignments.deleted': false,
-      },
-    ]).exec();
+    return this.find({
+      deleted: false,
+      'assignments.assignedTo': userId,
+      'assignments.deleted': false,
+    }).exec();
   };
   taskSchema.statics.addTask = async function ({
     jobId, title, description, type, dueOn,
