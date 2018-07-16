@@ -32,7 +32,7 @@ module.exports = function (taskSchemaParam) {
         'assignments.assignedTo': userId,
       },
       {
-        'assignments.deleted': false,
+        'assignments.$.deleted': false,
       },
     ]).exec();
   };
