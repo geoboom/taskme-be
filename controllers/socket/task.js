@@ -37,6 +37,7 @@ exports.getAssignedTasks = (io, socket, path) => async () => {
   try {
     const { user } = socket;
     const tasks = await Task.getAssignedTasks(user._id);
+    console.log('getAssignedTasks:', tasks);
     tasks.forEach(({ _id }) => {
       socket.join(`room.task.${_id}`);
     });
