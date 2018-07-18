@@ -1,9 +1,12 @@
 const mongoose = require('mongoose');
 
+const DB_TEST_URL = `mongodb://geoboom:${process.env.DB_PASS}@ds029595.mlab.com:29595/taskme-db-test`;
+const DB_STAGING_URL = `mongodb://geoboom:${process.env.DB_PASS}@ds029595.mlab.com:29595/taskme-db-staging`;
+
 const dbConn = () => {
   mongoose.Promise = global.Promise;
   mongoose.connect(
-    `mongodb://geoboom:${process.env.DB_PASS}@ds029595.mlab.com:29595/taskme-db-test`,
+    process.env.NODE_ENV === 'production' ? DB_STAGING_URL : DB_TEST_URL,
     (err) => {
       if (err) {
         console.log('env =', process.env.NODE_ENV);
