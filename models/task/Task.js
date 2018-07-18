@@ -28,7 +28,7 @@ const {
   taskScoreRandomLeader,
 } = require('./helpers/taskHelpers');
 
-const TITLE_MAX = 45;
+const TITLE_MAX = 30;
 const DESC_MAX = 160;
 
 const taskSchema = mongoose.Schema({

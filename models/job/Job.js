@@ -10,7 +10,7 @@ let validComponents = [];
 const categoryValidator = category => validCategories.includes(category);
 const componentValidator = component => validComponents.includes(component);
 
-const TITLE_MAX = 30;
+const TITLE_MAX = 45;
 const DESC_MAX = 160;
 
 const jobSchema = mongoose.Schema({
