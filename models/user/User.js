@@ -11,7 +11,7 @@ const userSchema = mongoose.Schema({
   username: {
     type: String,
     validate: {
-      validator: v => /^[a-zA-Z0-9_-]{6,15}$/.test(v),
+      validator: v => /^[a-zA-Z0-9_-]{5,15}$/.test(v),
       message: '{VALUE} is not a valid username.',
     },
     required: 'Username is required.',
