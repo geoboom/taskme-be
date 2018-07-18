@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const DB_TEST_URL = `mongodb://geoboom:${process.env.DB_PASS}@ds029595.mlab.com:29595/taskme-db-test`;
-const DB_STAGING_URL = `mongodb://geoboom:${process.env.DB_PASS}@ds029595.mlab.com:29595/taskme-db-staging`;
+const DB_STAGING_URL = `mongodb://geoboom:${process.env.DB_PASS}@ds141611.mlab.com:41611/taskme-db-staging`;
 
 const dbConn = () => {
   mongoose.Promise = global.Promise;
