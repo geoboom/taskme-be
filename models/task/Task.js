@@ -28,8 +28,8 @@ const {
   taskScoreRandomLeader,
 } = require('./helpers/taskHelpers');
 
-const TITLE_MAX = 80;
-const DESC_MAX = 200;
+const TITLE_MAX = 45;
+const DESC_MAX = 160;
 
 const taskSchema = mongoose.Schema({
   _id: mongoose.Schema.Types.ObjectId,
@@ -52,7 +52,7 @@ const taskSchema = mongoose.Schema({
     trim: true,
     validate: [
       {
-        validator: v => v.trim().length < TITLE_MAX,
+        validator: v => v.trim().length <= TITLE_MAX,
         message: `Task title cannot have more than ${TITLE_MAX} characters.`,
       },
     ],
@@ -63,7 +63,7 @@ const taskSchema = mongoose.Schema({
     trim: true,
     validate: [
       {
-        validator: v => v.trim().length < DESC_MAX,
+        validator: v => v.trim().length <= DESC_MAX,
         message: `Task description cannot have more than ${DESC_MAX} characters.`,
       },
     ],

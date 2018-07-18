@@ -2,7 +2,7 @@ const Job = require('../../models/job/Job');
 const JobCategory = require('../../models/job/JobCategory');
 const JobComponent = require('../../models/job/JobComponent');
 const {
-  sendPushNotif
+  sendPushNotif,
 } = require('../../services/pushNotification');
 
 exports.getJob = (io, socket, path) => async (payload) => {

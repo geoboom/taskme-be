@@ -10,8 +10,8 @@ let validComponents = [];
 const categoryValidator = category => validCategories.includes(category);
 const componentValidator = component => validComponents.includes(component);
 
-const TITLE_MAX = 80;
-const DESC_MAX = 200;
+const TITLE_MAX = 30;
+const DESC_MAX = 160;
 
 const jobSchema = mongoose.Schema({
   _id: mongoose.Schema.Types.ObjectId,
@@ -21,7 +21,7 @@ const jobSchema = mongoose.Schema({
     trim: true,
     validate: [
       {
-        validator: v => v.trim().length < TITLE_MAX,
+        validator: v => v.trim().length <= TITLE_MAX,
         message: `Job title cannot have more than ${TITLE_MAX} characters.`,
       },
     ],
@@ -32,7 +32,7 @@ const jobSchema = mongoose.Schema({
     trim: true,
     validate: [
       {
-        validator: v => v.trim().length < DESC_MAX,
+        validator: v => v.trim().length <= DESC_MAX,
         message: `Job description cannot have more than ${DESC_MAX} characters.`,
       },
     ],

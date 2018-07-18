@@ -175,7 +175,7 @@ exports.removeAssignment = (io, socket, path) => async (payload) => {
   try {
     const { d: { taskId, assignedTo } } = payload;
     const task = await Task.removeAssignment(taskId, assignedTo);
-    socket.emit(`${path.path}`, { d: task });
+    socket.emit(`${path.path}`, { d: { taskId, assignedTo } });
     const socketId = await getPresence(assignedTo);
     const notifData = {
       title: 'Removed from Task',

@@ -26,8 +26,12 @@ module.exports = function (taskSchemaParam) {
   taskSchema.statics.getAssignedTasks = async function (userId) {
     return this.find({
       deleted: false,
-      'assignments.assignedTo': userId,
-      'assignments.deleted': false,
+      assignments: {
+        $elemMatch: {
+          assignedTo: userId,
+          deleted: false,
+        },
+      },
     }).exec();
   };
   taskSchema.statics.addTask = async function ({
