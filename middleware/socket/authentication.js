@@ -12,10 +12,16 @@ module.exports = async (socket, next) => {
 
     const response = await registerPresence(socket);
     if (!response) {
-      return next(new Error('Session already active.'));
+      return next(new Error(JSON.stringify({
+        type: 'authentication',
+        message: 'Session already active',
+      })));
     }
     return next();
   } catch (err) {
-    return next(new Error('Authentication error.'));
+    return next(new Error(JSON.stringify({
+      type: 'authentication',
+      message: 'Authentication error',
+    })));
   }
 };
