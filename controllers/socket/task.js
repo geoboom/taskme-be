@@ -4,15 +4,8 @@ const { getPresence } = require('../../services/socket');
 const {
   sendPushNotif,
 } = require('../../services/pushNotification');
-
-const deleteRoom = (io, roomName) => {
-  const room = io.sockets.adapter.rooms[roomName];
-  if (room) {
-    room.sockets.forEach((s) => {
-      s.leave(room);
-    });
-  }
-};
+const { deleteRoom } = require('../../helpers/socketRooms');
+const { V_TASK_COMPLETED } = require('../../models/task/constants/taskGraph');
 
 exports.getTask = (io, socket, path) => async (payload) => {
   try {
@@ -233,15 +226,14 @@ exports.assignmentActivity = (io, socket, path) => async (payload) => {
     const { user: { _id: userId } } = socket;
     const oldTask = await Task.findOne({ _id: taskId }).exec();
     const task = await Task.assignmentActivity(taskId, userId, activity);
-    task.assignments.forEach((assignment) => {
-      if (assignment.assignedTo.toString() === userId.toString()
-        && assignment.deleted) {
-        socket.leave(`room.task.${taskId}`);
-      }
-    });
+    const toRemove = task.assignments.find(assignment =>
+      assignment.assignedTo.toString() === userId.toString() && assignment.deleted);
+    if (toRemove) socket.leave(`room.task.${taskId}`);
+
     socket.emit(`${path.path}`, { d: task });
     io.in('room.group.admin').emit(`${path.root}`, { d: task });
     io.in(`room.task.${taskId}`).emit(`${path.root}`, { d: task });
+
     if (task.status !== oldTask.status) {
       const notifData = {
         title: 'Task Status Updated',
@@ -249,13 +241,12 @@ exports.assignmentActivity = (io, socket, path) => async (payload) => {
       };
       socket.to('room.group.admin').to(`room.task.${taskId}`).emit(
         'notif.taskStatusChange',
-        {
-          title: 'Task Status Updated',
-          message: `Task ${taskId}: ${oldTask.status} -> ${task.status}.`,
-        },
+        notifData,
       );
       await sendPushNotif(notifData, 'admin');
     }
+
+    if (task.status === V_TASK_COMPLETED) deleteRoom(io, `room.task.${taskId}`);
   } catch (e) {
     const { d: { taskId } } = payload;
     socket.emit(`${path.path}.error`, { d: { taskId } });
