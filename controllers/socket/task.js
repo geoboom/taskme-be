@@ -42,6 +42,7 @@ exports.getAssignedTasks = (io, socket, path) => async () => {
 exports.addTask = (io, socket, path) => async (payload) => {
   try {
     const { d, i } = payload;
+    console.log(d);
     const task = await Task.addTask(d);
     const { _id } = task;
     socket.emit(`${path.path}`, { d: { _id }, i });
@@ -56,6 +57,7 @@ exports.addTask = (io, socket, path) => async (payload) => {
     );
     await sendPushNotif(notifData, 'admin');
   } catch (e) {
+    console.log(e);
     const { i } = payload;
     socket.emit(`${path.path}.error`, { i });
   }

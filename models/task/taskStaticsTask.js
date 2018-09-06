@@ -35,7 +35,7 @@ module.exports = function (taskSchemaParam) {
     }).exec();
   };
   taskSchema.statics.addTask = async function ({
-    jobId, title, description, type, dueOn,
+    jobId, title, description, type, dueOn, checklist,
   }) {
     const task = new this({
       _id: new mongoose.Types.ObjectId(),
@@ -44,15 +44,20 @@ module.exports = function (taskSchemaParam) {
       description,
       type,
       dueOn,
+      checklist: checklist.map((item, index) => ({
+        ...item,
+        questionNumber: index + 1,
+      })),
     });
 
     return task.save();
   };
-  taskSchema.statics.editTask = async function ({ _id, title, description }) {
+  taskSchema.statics.editTask = async function ({ _id, title, description, checklist }) {
     const task = await validateAndReturnTask(_id);
 
     task.title = title;
     task.description = description;
+    task.checklist = checklist;
 
     return task.save();
   };

@@ -117,6 +117,12 @@ const taskSchema = mongoose.Schema({
       },
     ],
   },
+  checklist: {
+    type: [{
+      questionNumber: Number,
+      question: String,
+    }],
+  },
 }, {
   timestamps: true,
 });
