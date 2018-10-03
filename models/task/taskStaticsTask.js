@@ -52,7 +52,9 @@ module.exports = function (taskSchemaParam) {
 
     return task.save();
   };
-  taskSchema.statics.editTask = async function ({ _id, title, description, checklist }) {
+  taskSchema.statics.editTask = async function ({
+    _id, title, description, checklist,
+  }) {
     const task = await validateAndReturnTask(_id);
 
     task.title = title;
@@ -61,8 +63,24 @@ module.exports = function (taskSchemaParam) {
 
     return task.save();
   };
-  // TODO: implement document locking during 'find and save' to prevent race
-  // update condition
+  taskSchema.statics.checklistCheck = async function ({ _id, questionNumber }) {
+    const task = await validateAndReturnTask(_id);
+    const newChecklist = [];
+    for (let i = 0; i < task.checklist.length; i += 1) {
+      const item = task.checklist[i];
+      if (task.checklist[i].questionNumber === questionNumber) {
+        item.done = !item.done;
+      }
+
+      newChecklist.push(item);
+    }
+
+    task.checklist = newChecklist;
+
+    return task.save();
+  };
+  /* TODO: implement document locking during 'find and save' to prevent race
+  update condition */
   taskSchema.statics.removeTask = async function (_id) {
     const task = await this.findOne({ _id }).exec();
 

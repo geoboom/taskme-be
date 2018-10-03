@@ -121,6 +121,10 @@ const taskSchema = mongoose.Schema({
     type: [{
       questionNumber: Number,
       question: String,
+      done: {
+        type: Boolean,
+        default: false,
+      },
     }],
   },
 }, {
