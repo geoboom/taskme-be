@@ -81,6 +81,7 @@ exports.editTask = (io, socket, path) => async (payload) => {
     await sendPushNotif(notifData, 'admin');
   } catch (e) {
     const { d: { _id } } = payload;
+    console.log(e);
     socket.emit(`${path.path}.error`, { d: { _id } });
   }
 };
