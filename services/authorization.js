@@ -1,5 +1,12 @@
-module.exports.withAuthorization = (user, adminRequired, successCb, failureCb) => {
-  if (!adminRequired || (adminRequired && user.group === 'admin')) {
+module.exports.withAuthorization = (
+  user,
+  adminRequired,
+  successCb,
+  failureCb,
+  authFunction = () => true,
+) => {
+  if ((!adminRequired || (adminRequired && user.group === 'admin'))
+    && authFunction(user)) {
     return successCb;
   }
 

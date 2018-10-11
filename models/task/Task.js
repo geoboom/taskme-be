@@ -127,6 +127,15 @@ const taskSchema = mongoose.Schema({
       },
     }],
   },
+  attachments: {
+    type: [{
+      originalname: String,
+      minetype: String,
+      destination: String,
+      filename: String,
+      path: String,
+    }],
+  },
 }, {
   timestamps: true,
 });

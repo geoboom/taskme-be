@@ -42,7 +42,6 @@ exports.getAssignedTasks = (io, socket, path) => async () => {
 exports.addTask = (io, socket, path) => async (payload) => {
   try {
     const { d, i } = payload;
-    console.log(d);
     const task = await Task.addTask(d);
     const { _id } = task;
     socket.emit(`${path.path}`, { d: { _id }, i });
@@ -128,9 +127,14 @@ exports.adminCompleteTask = (io, socket, path) => async (payload) => {
 exports.checklistCheck = (io, socket, path) => async (payload) => {
   try {
     const { d } = payload;
-    const task = await Task.checklistCheck(d);
-    io.in('room.group.admin').emit(`${path.root}`, { d: task });
-    io.in(`room.task.${task._id}`).emit(`${path.root}`, { d: task });
+    const { user: { _id, group } } = socket;
+    const canCheck = await Task.userCanChecklist(_id, d._id);
+
+    if (group === 'admin' || canCheck) {
+      const task = await Task.checklistCheck(d);
+      io.in('room.group.admin').emit(`${path.root}`, { d: task });
+      io.in(`room.task.${task._id}`).emit(`${path.root}`, { d: task });
+    }
   } catch (e) {
     console.log('error:', e);
     const { d: { _id } } = payload;

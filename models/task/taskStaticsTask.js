@@ -7,6 +7,7 @@ const {
   E_MARK_COMPLETE,
   E_REMOVED,
   E_ASSIGNED,
+  V_IN_PROGRESS,
 } = require('./constants/assignmentGraph');
 const {
   V_TASK_COMPLETED,
@@ -23,6 +24,19 @@ module.exports = function (taskSchemaParam) {
   taskSchema.statics.getAllTasks = async function () {
     return this.find({ deleted: false }).exec();
   };
+  taskSchema.statics.userCanChecklist = async function (userId, taskId) {
+    return this.findOne({
+      _id: taskId,
+      deleted: false,
+      assignments: {
+        $elemMatch: {
+          assignedTo: userId,
+          status: V_IN_PROGRESS,
+          deleted: false,
+        },
+      },
+    }).exec();
+  };
   taskSchema.statics.getAssignedTasks = async function (userId) {
     return this.find({
       deleted: false,
@@ -35,7 +49,7 @@ module.exports = function (taskSchemaParam) {
     }).exec();
   };
   taskSchema.statics.addTask = async function ({
-    jobId, title, description, type, dueOn, checklist,
+    jobId, title, description, type, dueOn, checklist, attachments,
   }) {
     const task = new this({
       _id: new mongoose.Types.ObjectId(),
@@ -44,22 +58,25 @@ module.exports = function (taskSchemaParam) {
       description,
       type,
       dueOn,
-      checklist: checklist.map((item, index) => ({
+      attachments,
+      assignments: [],
+      checklist: checklist ? checklist.map((item, index) => ({
         ...item,
         questionNumber: index + 1,
-      })),
+      })) : [],
     });
 
     return task.save();
   };
   taskSchema.statics.editTask = async function ({
-    _id, title, description, checklist,
+    _id, title, description, checklist, attachments,
   }) {
     const task = await validateAndReturnTask(_id);
 
     task.title = title;
     task.description = description;
     task.checklist = checklist;
+    task.attachments = attachments;
 
     return task.save();
   };
