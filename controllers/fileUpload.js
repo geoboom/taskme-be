@@ -1,5 +1,8 @@
-exports.fileUploadPost = async (req, res, next) => {
+const Task = require('../models/task/Task');
+
+exports.fileUploadPost = (req, res, next) => {
   try {
+    req.file.originalname = decodeURIComponent(req.file.originalname);
     res.json({
       uploadData: req.file,
     });
@@ -11,8 +14,19 @@ exports.fileUploadPost = async (req, res, next) => {
 
 exports.fileDownloadGet = async (req, res, next) => {
   try {
-    // read file then pipe file to response
-  } catch(e) {
+    const { taskId, originalname } = req.params;
+    const task = await Task.findOne({ _id: taskId }).exec();
+    if (!task) res.status(404).send('Task not found.');
 
+    const { path, originalname: filename } = (task.attachments || [])
+      .find(({ originalname: o }) => (
+        o === originalname
+      ));
+    res.download(path, filename, (err) => {
+      if (err) next(err);
+    });
+  } catch (err) {
+    console.log(err);
+    next(err);
   }
 };

@@ -9,8 +9,8 @@ const {
 exports.sendPushNotif = async (notifData, group, targetUserId = null) => {
   const res1 = await asyncRedisHGetAll('refresh-tokens');
   const res2 = await asyncRedisHGetAll('ws-presence');
-  const allUsers = Object.values(res1);
-  const onlineUsers = Object.keys(res2);
+  const allUsers = Object.values(res1 || {});
+  const onlineUsers = Object.keys(res2 || {});
   const seen = [];
   const targetUsers = [];
 
