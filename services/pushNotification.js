@@ -49,10 +49,12 @@ exports.sendPushNotif = async (notifData, group, targetUserId = null) => {
   if (res3.length > 0) {
     console.log('res3:', res3);
     const payload = JSON.stringify({
-      registration_ids: res3,
+      // registration_ids: res3,
+      to: res3,
       data: notifData,
     });
 
+    console.log('payload', payload);
     const res = await request({
       url: 'https://fcm.googleapis.com/fcm/send',
       method: 'POST',
