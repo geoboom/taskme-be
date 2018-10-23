@@ -21,6 +21,8 @@ exports.sendPushNotif = async (notifData, group, targetUserId = null) => {
     }
   });
 
+  console.log('targetUsers:', targetUsers);
+
   const res3 = [];
 
   if (targetUserId) {
@@ -35,7 +37,7 @@ exports.sendPushNotif = async (notifData, group, targetUserId = null) => {
       const deviceToken = await asyncRedisHGet(targetUsers[i], 'deviceToken');
       res3.push(deviceToken);
     }
-  } else {
+  } else { // some specific group
     for (let i = 0; i < targetUsers.length; ++i) {
       const user = await asyncRedisHMGet(targetUsers[i], 'group', 'deviceToken');
       if (user[0] === group) {
@@ -45,6 +47,7 @@ exports.sendPushNotif = async (notifData, group, targetUserId = null) => {
   }
 
   if (res3.length > 0) {
+    console.log('res3:', res3);
     const payload = JSON.stringify({
       registration_ids: res3,
       data: notifData,
@@ -59,7 +62,7 @@ exports.sendPushNotif = async (notifData, group, targetUserId = null) => {
       },
       body: payload,
     });
-    console.log(res);
+    console.log('Firebase res:', res);
     return res;
   }
 
