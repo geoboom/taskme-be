@@ -50,7 +50,7 @@ exports.sendPushNotif = async (notifData, group, targetUserId = null) => {
     console.log('res3:', res3);
     const payload = JSON.stringify({
       registration_ids: res3,
-      data: {
+      notification: {
         text: notifData.message,
         ...notifData,
       },
