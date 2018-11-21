@@ -23,7 +23,10 @@ exports.fileDownloadGet = async (req, res, next) => {
         o === originalname
       ));
     res.download(path, filename, (err) => {
-      if (err) next(err);
+      if (err) {
+        console.log('res.download error:', err);
+        next(err);
+      }
     });
   } catch (err) {
     console.log(err);
