@@ -88,7 +88,7 @@ const taskSchema = mongoose.Schema({
   },
   dueOn: {
     type: Date,
-    required: 'Task due date required.',
+    required: false,
     // TODO: validator -- ensure that date is >= current date
   },
   completedBy: {

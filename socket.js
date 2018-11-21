@@ -7,8 +7,8 @@ const { unregisterPresence } = require('./services/socket');
 
 const init = (server) => {
   const io = socketio(server, {
-    pingTimeout: 10000,
-    pingInterval: 5000,
+    pingTimeout: 3000,
+    pingInterval: 1000,
   });
 
   io.use(authenticationMiddleware);

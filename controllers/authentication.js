@@ -49,7 +49,6 @@ exports.loginPost = async (req, res, next) => {
     };
 
     const refreshToken = await generateAndPersistRefreshToken(userData);
-
     res.json({
       refreshToken,
       userData,

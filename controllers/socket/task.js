@@ -39,7 +39,7 @@ exports.getAssignedTasks = (io, socket, path) => async () => {
   }
 };
 
-exports.addTask = (io, socket, path) => async (payload) => {
+const addTask = (io, socket, path) => async (payload) => {
   try {
     const { d, i } = payload;
     const task = await Task.addTask(d);
@@ -61,6 +61,8 @@ exports.addTask = (io, socket, path) => async (payload) => {
     socket.emit(`${path.path}.error`, { i });
   }
 };
+
+exports.addTask = addTask;
 
 exports.editTask = (io, socket, path) => async (payload) => {
   try {

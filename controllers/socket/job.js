@@ -1,9 +1,10 @@
+const Task = require('../../models/task/Task');
 const Job = require('../../models/job/Job');
 const JobCategory = require('../../models/job/JobCategory');
 const JobComponent = require('../../models/job/JobComponent');
-const {
-  sendPushNotif,
-} = require('../../services/pushNotification');
+const SavedJob = require('../../models/job/SavedJobs');
+const { sendPushNotif } = require('../../services/pushNotification');
+const { addTask } = require('./task');
 
 exports.getJob = (io, socket, path) => async (payload) => {
   try {
@@ -24,8 +25,9 @@ exports.getAllJobs = (io, socket, path) => async () => {
   }
 };
 
-exports.addJob = (io, socket, path) => async (payload) => {
+const addJob = (io, socket, path) => async (payload) => {
   try {
+    console.log(path);
     const { d, i } = payload;
     const job = await Job.addJob(d);
     const { _id } = job;
@@ -40,11 +42,14 @@ exports.addJob = (io, socket, path) => async (payload) => {
       notifData,
     );
     await sendPushNotif(notifData, 'admin');
+    return _id;
   } catch (e) {
     const { i } = payload;
     socket.emit(`${path.path}.error`, { i });
   }
 };
+
+exports.addJob = addJob;
 
 exports.editJob = (io, socket, path) => async (payload) => {
   try {
@@ -74,7 +79,7 @@ exports.removeJob = (io, socket, path) => async (payload) => {
     await Job.removeJob(_id);
     socket.emit(`${path.path}`, { d: { _id } });
     io.in('room.group.admin').emit(`${path.root}`, { d: { _id, deleted: true } });
-    const notifData =   {
+    const notifData = {
       title: 'Job Removed',
       message: `Job ${_id} has been removed.`,
     };
@@ -154,3 +159,58 @@ exports.removeComponent = (io, socket, path) => async (payload) => {
     socket.emit(`${path.path}.error`, { d });
   }
 };
+exports.getAllSavedJobs = (io, socket, path) => async () => {
+  try {
+    const savedJobs = (await SavedJob.getAllSavedJobs() || [])
+      .map(({
+        _id, title, job, noTasks,
+      }) => ({
+        _id, title, job, noTasks,
+      }));
+    socket.emit(`${path.path}`, { d: savedJobs });
+  } catch (e) {
+    socket.emit(`${path.path}.error`);
+  }
+};
+exports.saveJob = (io, socket, path) => async (payload) => {
+  try {
+    const { d, i } = payload;
+    const savedJob = await SavedJob.saveJob(d); // title, jobId, savedJobId
+    io.in('room.group.admin').emit(`${path.path}`, { d: savedJob });
+  } catch (e) {
+    const { d } = payload;
+    console.log('job save error:', e);
+    socket.emit(`${path.path}.error`, { d });
+  }
+};
+exports.removedSavedJob = (io, socket, path) => async (payload) => {
+  try {
+    const { d, i } = payload;
+    await SavedJob.removeSavedJob(d);
+    io.in('room.group.admin').emit(`${path.path}`, { d });
+  } catch (e) {
+    const { d } = payload;
+    socket.emit(`${path.path}.error`, { d });
+  }
+};
+
+exports.deploySavedJob = (io, socket, path) => async (payload) => {
+  try {
+    const { d } = payload;
+    const { job, tasks } = await SavedJob.getSavedJob(d);
+    const addedJob = await Job.addJob(job);
+    io.in('room.group.admin').emit('job', { d: addedJob });
+    const results = [];
+    for (let i = 0; i < tasks.length; i += 1) {
+      results.push(Task.addTask({ ...tasks[i], jobId: addedJob._id }));
+    }
+    (await Promise.all(results)).forEach((addedTask) => {
+      io.in('room.group.admin').emit('task', { d: addedTask });
+    });
+  } catch (e) {
+    const { d } = payload;
+    console.log(e);
+    socket.emit(`${path.path}.error`, { d });
+  }
+};
+

@@ -9,11 +9,38 @@ const {
   getAllComponents,
   addComponent,
   removeComponent,
+  getAllSavedJobs,
+  saveJob,
+  removedSavedJob,
+  deploySavedJob,
 } = require('../../controllers/socket/job');
 const {
   convertPathsToLeafs,
   prependRootToLeafs,
 } = require('../../helpers/socketRoutesAugmenter');
+
+const jobSaveActions = convertPathsToLeafs('.save', [
+  {
+    path: '.getAll',
+    handler: getAllSavedJobs,
+    adminRequired: true,
+  },
+  {
+    path: '.save',
+    handler: saveJob,
+    adminRequired: true,
+  },
+  {
+    path: '.deploy',
+    handler: deploySavedJob,
+    adminRequired: true,
+  },
+  {
+    path: '.remove',
+    handler: removedSavedJob,
+    adminRequired: true,
+  },
+]);
 
 const jobCategoryActions = convertPathsToLeafs('.category', [
   {
@@ -75,6 +102,7 @@ const jobRoutes = [
     }]),
   ...prependRootToLeafs('job', jobCategoryActions),
   ...prependRootToLeafs('job', jobComponentActions),
+  ...prependRootToLeafs('job', jobSaveActions),
 ];
 
 module.exports = jobRoutes;
