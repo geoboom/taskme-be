@@ -5,65 +5,76 @@ const {
   editTask,
   removeTask,
   adminCompleteTask,
+  checklistCheck,
   addAssignment,
   removeAssignment,
   promoteAssignment,
   assignmentActivity,
 } = require('../../controllers/socket/task');
+const {
+  convertPathsToLeafs,
+} = require('../../helpers/socketRoutesAugmenter');
 
-const taskAssignmentRoutes = [
+const assignmentPaths = [
   {
-    path: '.add',
+    path: '.addAssignment',
     handler: addAssignment,
     adminRequired: true,
   },
   {
-    path: '.remove',
+    path: '.removeAssignment',
     handler: removeAssignment,
     adminRequired: true,
   },
   {
-    path: '.promote',
+    path: '.promoteAssignment',
     handler: promoteAssignment,
     adminRequired: true,
   },
   {
-    path: '.activity',
+    path: '.assignmentActivity',
     handler: assignmentActivity,
   },
 ];
 
-const taskRoutes = [
-  {
-    path: '.getAll',
-    handler: getAllTasks,
-    adminRequired: true,
-  },
-  {
-    path: '.getAssigned',
-    handler: getAssignedTasks,
-  },
-  {
-    path: '.add',
-    handler: addTask,
-    adminRequired: true,
-  },
-  {
-    path: '.edit',
-    handler: editTask,
-    adminRequired: true,
-  },
-  {
-    path: '.remove',
-    handler: removeTask,
-    adminRequired: true,
-  },
-  {
-    path: '.adminComplete',
-    handler: adminCompleteTask,
-    adminRequired: true,
-  },
-  ...taskAssignmentRoutes.map(route => ({ ...route, path: `.assignment${route.path}` })),
-];
+const taskRoutes = convertPathsToLeafs('task',
+  [
+    {
+      path: '.getAll',
+      handler: getAllTasks,
+      adminRequired: true,
+    },
+    {
+      path: '.getAssigned',
+      handler: getAssignedTasks,
+    },
+    {
+      path: '.add',
+      handler: addTask,
+      adminRequired: true,
+    },
+    {
+      path: '.edit',
+      handler: editTask,
+      adminRequired: true,
+    },
+    {
+      path: '.remove',
+      handler: removeTask,
+      adminRequired: true,
+    },
+    {
+      path: '.adminComplete',
+      handler: adminCompleteTask,
+      adminRequired: true,
+    },
+    {
+      path: '.checklist.check',
+      handler: checklistCheck,
+      adminRequired: false,
+    },
+    ...assignmentPaths,
+  ]);
+
 
 module.exports = taskRoutes;

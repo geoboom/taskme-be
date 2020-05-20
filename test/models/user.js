@@ -3,7 +3,7 @@ require('dotenv').config();
 const { expect } = require('chai');
 const mongoose = require('mongoose');
 
-const User = require('../../models/user');
+const User = require('../../models/user/User');
 const sleep = require('util').promisify(setTimeout);
 
 describe('/models/user.js', () => {

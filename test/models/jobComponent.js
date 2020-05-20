@@ -3,7 +3,7 @@ require('dotenv').config();
 const { expect } = require('chai');
 const mongoose = require('mongoose');
 
-const JobComponent = require('../../models/jobComponent');
+const JobComponent = require('../../models/job/JobComponent');
 const { initializeDB } = require('./dbHelper');
 
 const sleep = require('util').promisify(setTimeout);

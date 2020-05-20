@@ -5,7 +5,7 @@ const request = require('supertest');
 const jwt = require('jsonwebtoken');
 
 const { app } = require('../../bin/www');
-const User = require('../../models/user');
+const User = require('../../models/user/User');
 
 describe('/test/auth.js', () => {
   const GOOD_USERNAME = 'goodUsername';

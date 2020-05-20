@@ -10,22 +10,12 @@ const {
 const {
   signupPost,
   loginPost,
+  deviceTokenPost,
   tokenPost,
-  registerAdminGet,
-  resetDatabaseGet,
+  logoutPost
 } = require('../controllers/authentication');
 
 const router = express.Router();
-
-router.get(
-  '/resetDatabase',
-  resetDatabaseGet,
-);
-
-router.get(
-  '/registerAdmin',
-  registerAdminGet,
-);
 
 router.post(
   '/signup',
@@ -45,9 +35,20 @@ router.post(
 // );
 
 router.post(
+  '/deviceToken',
+  refreshTokenAuthentication,
+  deviceTokenPost,
+);
+
+router.post(
   '/token',
   refreshTokenAuthentication,
   tokenPost,
+);
+
+router.post(
+  '/logout',
+  logoutPost,
 );
 
 router.get(

@@ -5,11 +5,12 @@ redis.Multi.prototype.asyncExec = promisify(redis.Multi.prototype.exec);
 
 module.exports.redis = redis;
 
-const redisClient = require('./redisClient');
+const redisClient = require('../config/redisClient');
 
 module.exports = {
   redisClient,
   asyncRedisGet: promisify(redisClient.get).bind(redisClient),
+  asyncRedisMGet: promisify(redisClient.mget).bind(redisClient),
   asyncRedisSet: promisify(redisClient.set).bind(redisClient),
   asyncRedisDel: promisify(redisClient.del).bind(redisClient),
   asyncRedisExists: promisify(redisClient.exists).bind(redisClient),

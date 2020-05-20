@@ -1,9 +1,10 @@
+/* eslint-disable no-await-in-loop */
 const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
 
 const {
   JWT_OPTIONS,
-} = require('../config');
+} = require('../config/jwt');
 const {
   redisClient,
   asyncRedisSet,
@@ -19,7 +20,7 @@ const {
   asyncRedisExpire,
 } = require('../helpers/redisAsync');
 const ApiError = require('../helpers/apiError');
-const User = require('../models/user');
+const User = require('../models/user/User');
 
 const REFRESH_TOKEN_EXPIRY = 7 * 24 * 60 * 60; // 1 week, in s
 const REFRESH_TOKEN_KEY = 'refresh-tokens';
@@ -89,3 +90,12 @@ exports.invalidateRefreshToken = async (refreshToken) => {
 exports.generateAccessToken = payload =>
   jwt.sign(payload, process.env.JWT_SECRET, JWT_OPTIONS); // synchronous
 
+exports.submitDeviceToken = async (_id, deviceToken) =>
+  User.submitDeviceToken(_id, deviceToken);
+
+exports.updateCachedUser = async (user) => {
+  await asyncRedisHMSet(
+    `user:${user._id}`,
+    { ...user, _id: user._id.toString() },
+  );
+};

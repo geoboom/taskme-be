@@ -5,11 +5,11 @@ const LocalStrategy = require('passport-local');
 
 const {
   JWT_OPTIONS,
-} = require('../config');
+} = require('../config/jwt');
 const {
   validateRefreshToken,
 } = require('../services/authentication');
-const User = require('../models/user');
+const User = require('../models/user/User');
 
 exports.refreshTokenAuthentication = async (req, res, next) => {
   try {
