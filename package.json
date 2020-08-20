@@ -7,7 +7,7 @@
     "test": "set NODE_ENV=test&& mocha test/models/task.js --timeout 10000 --exit"
   },
   "dependencies": {
-    "bcrypt": "^2.0.1",
+    "bcrypt": "^5.0.0",
     "body-parser": "^1.18.3",
     "connect-redis": "^3.3.3",
     "cookie-parser": "~1.4.3",
